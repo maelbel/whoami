@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
@@ -61,9 +63,60 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+      - name: Generate changelog
+        id: changelog
+        run: |
+          previous_tag=$(git tag --sort=-creatordate | grep -v "^${GITHUB_REF_NAME}$" | head -n1 || true)
+          range=${previous_tag:+"$previous_tag..HEAD"}
+          range=${range:-HEAD}
+
+          declare -A sections=(
+            [feat]="Features"
+            [fix]="Fixes"
+            [chore]="Chores"
+            [docs]="Docs"
+            [refactor]="Refactors"
+            [perf]="Performance"
+            [test]="Tests"
+          )
+          order=(feat fix chore docs refactor perf test)
+
+          {
+            echo "changelog<<CHANGELOG_EOF"
+            echo "## Changelog"
+            echo ""
+            for type in "${order[@]}"; do
+              label="${sections[$type]}"
+              commits=$(git log "$range" --reverse --no-merges --pretty=format:"%s|%h" | grep -i "^${type}:" || true)
+              if [ -n "$commits" ]; then
+                echo "### $label"
+                while IFS='|' read -r subject hash; do
+                  msg="${subject#*: }"
+                  echo "- $msg ($hash)"
+                done <<< "$commits"
+                echo ""
+              fi
+            done
+            other=$(git log "$range" --reverse --no-merges --pretty=format:"%s|%h" | grep -viE "^(feat|fix|chore|docs|refactor|perf|test):" || true)
+            if [ -n "$other" ]; then
+              echo "### Other"
+              while IFS='|' read -r subject hash; do
+                echo "- $subject ($hash)"
+              done <<< "$other"
+              echo ""
+            fi
+            if [ -n "$previous_tag" ]; then
+              echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${previous_tag}...${GITHUB_REF_NAME}"
+            else
+              echo "**Full Changelog**: https://github.com/${{ github.repository }}/commits/${GITHUB_REF_NAME}"
+            fi
+            echo "CHANGELOG_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
           body: |
             Deployed to ${{ steps.deploy.outputs.url }}
+
+            ${{ steps.changelog.outputs.changelog }}

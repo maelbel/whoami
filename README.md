@@ -3,6 +3,8 @@
 Mael Belliard's portfolio — a DevOps/CI-CD themed site built with [Nuxt](https://nuxt.com) and
 [Nuxt UI](https://ui.nuxt.com).
 
+Live at [maelbelliard.fr](https://www.maelbelliard.fr/).
+
 ## Setup
 
 ```bash
@@ -26,8 +28,8 @@ pnpm preview
 
 - **`.github/workflows/ci.yml`** — lint + typecheck on every push.
 - **`.github/workflows/release.yml`** — on pushing a tag matching `v*.*.*`, builds the site,
-  deploys it to Vercel, and publishes a GitHub Release with auto-generated notes and the
-  deployment URL.
+  deploys it to Vercel, and publishes a GitHub Release with a changelog (commits grouped by
+  Conventional Commits type, each with its short SHA) and the deployment URL.
 
 To cut a release:
 
