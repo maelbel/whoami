@@ -1,6 +1,7 @@
-# Portfolio
+# whoami
 
-Mael Belliard's portfolio — built with [Nuxt](https://nuxt.com) and [Nuxt UI](https://ui.nuxt.com).
+Mael Belliard's portfolio — a DevOps/CI-CD themed site built with [Nuxt](https://nuxt.com) and
+[Nuxt UI](https://ui.nuxt.com).
 
 ## Setup
 
