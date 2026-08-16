@@ -35,6 +35,54 @@ const skills = [
   }
 ]
 
+const experience = [
+  {
+    date: 'Jan 2025 – Present',
+    title: 'Full Stack Developer',
+    description: 'LM Control · Apprenticeship · Jonage, France. Payment terminal & kiosk software solutions. TypeScript, Nuxt.js and more.',
+    icon: 'i-lucide-briefcase'
+  },
+  {
+    date: 'Sep 2022 – Jun 2023',
+    title: 'Full Stack Developer',
+    description: 'masalledebain.com · Permanent contract · Biguglia, France. Migrated PrestaShop 1.6 to 1.7, built custom PrestaShop/Odoo modules, migrated the database (SQL → CSV) and handled production deployments and incident support. Stack: PHP, Symfony, SQL, Python, XML.',
+    icon: 'i-lucide-briefcase'
+  }
+]
+
+const education = [
+  {
+    date: 'Jan 2025 – Jan 2027',
+    title: 'Master, Informatics',
+    description: 'Dawan',
+    icon: 'i-lucide-graduation-cap'
+  },
+  {
+    date: 'Sep 2024 – Jan 2025',
+    title: 'POEI, Reactive AI Developer',
+    description: 'Dawan. Government-funded pre-hire training program preparing for an AI/reactive developer role.',
+    icon: 'i-lucide-graduation-cap'
+  },
+  {
+    date: 'Sep 2023 – Jan 2024',
+    title: 'Specialized MBA, Fullstack Developer',
+    description: 'MyDigitalSchool. Diploma not obtained — training stopped ~4 months in after being unable to find an apprenticeship placement.',
+    icon: 'i-lucide-graduation-cap'
+  },
+  {
+    date: 'Sep 2021 – Jun 2022',
+    title: 'Licence 3, Computer Science',
+    description: 'Università di Corsica Pasquale Paoli.',
+    icon: 'i-lucide-graduation-cap'
+  },
+  {
+    date: 'Sep 2019 – Jun 2021',
+    title: 'DUT, Multimedia & Internet Professions (Audiovisual)',
+    description: 'Università di Corsica Pasquale Paoli.',
+    icon: 'i-lucide-graduation-cap'
+  }
+]
+
 const featured = {
   name: 'Croesus',
   description: 'Open-source net worth tracker — self-hosted or as a desktop app for Windows/macOS/Linux — with real support for French tax-advantaged accounts (PEA, assurance-vie), real estate, and debts.',
@@ -154,6 +202,33 @@ const pipeline = [
               {{ item.label }}
             </UBadge>
           </div>
+        </div>
+      </div>
+    </UPageSection>
+
+    <UPageSection
+      id="experience"
+      title="Experience & Education"
+      description="Where I've worked and studied."
+    >
+      <div class="grid gap-10 sm:grid-cols-2">
+        <div>
+          <h3 class="font-semibold text-highlighted mb-4">
+            Experience
+          </h3>
+          <UTimeline
+            :items="experience"
+            :default-value="0"
+          />
+        </div>
+        <div>
+          <h3 class="font-semibold text-highlighted mb-4">
+            Education
+          </h3>
+          <UTimeline
+            :items="education"
+            :default-value="0"
+          />
         </div>
       </div>
     </UPageSection>

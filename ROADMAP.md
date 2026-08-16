@@ -31,7 +31,5 @@ Ideas for future iterations, not yet implemented.
 
 ## Content gaps to fill in later
 
-- Real employment/education dates for an Experience/Education timeline (only public GitHub
-  data was available when this site was built, so no dates were invented).
 - `culina-backend` / `culina-frontend` / `cats` / `L3SPIInfo` — left out of the projects
   section for now; add once there's a clear one-line description for each.
