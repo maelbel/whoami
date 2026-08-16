@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { site } = useAppConfig()
+
 useHead({
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
@@ -11,7 +13,7 @@ useHead({
   }
 })
 
-const title = 'Mael Belliard — Fullstack Developer'
+const title = `${site.name} — Fullstack Developer`
 const description = 'Fullstack developer at LM Control, building self-hosted apps with clean CI/CD pipelines — Vue/Nuxt, NestJS/FastAPI, Docker & Traefik.'
 
 useSeoMeta({
@@ -22,12 +24,17 @@ useSeoMeta({
   twitterCard: 'summary_large_image'
 })
 
-const links = [
+const navLinks = [
   { label: 'Skills', to: '#skills' },
   { label: 'Experience', to: '#experience' },
   { label: 'Projects', to: '#projects' },
   { label: 'Pipeline', to: '#pipeline' },
   { label: 'Contact', to: '#contact' }
+]
+
+const socialLinks = [
+  { to: `mailto:${site.email}`, icon: 'i-lucide-mail', label: 'Email' },
+  { to: `https://github.com/${site.github.username}`, icon: 'i-simple-icons-github', label: 'GitHub', external: true }
 ]
 </script>
 
@@ -41,7 +48,7 @@ const links = [
       </template>
 
       <template #default>
-        <UNavigationMenu :items="links" />
+        <UNavigationMenu :items="navLinks" />
       </template>
 
       <template #right>
@@ -66,10 +73,12 @@ const links = [
         <UColorModeButton />
 
         <UButton
-          to="https://github.com/maelbel"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
+          v-for="link in socialLinks"
+          :key="link.label"
+          :to="link.to"
+          :target="link.external ? '_blank' : undefined"
+          :icon="link.icon"
+          :aria-label="link.label"
           color="neutral"
           variant="ghost"
         />
@@ -85,23 +94,18 @@ const links = [
     <UFooter>
       <template #left>
         <p class="text-sm text-muted font-mono">
-          $ echo "built with Nuxt UI" • © {{ new Date().getFullYear() }} Mael Belliard
+          $ echo "built with Nuxt UI" • © {{ new Date().getFullYear() }} {{ site.name }}
         </p>
       </template>
 
       <template #right>
         <UButton
-          to="mailto:contact@maelbelliard.fr"
-          icon="i-lucide-mail"
-          aria-label="Email"
-          color="neutral"
-          variant="ghost"
-        />
-        <UButton
-          to="https://github.com/maelbel"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
+          v-for="link in socialLinks"
+          :key="link.label"
+          :to="link.to"
+          :target="link.external ? '_blank' : undefined"
+          :icon="link.icon"
+          :aria-label="link.label"
           color="neutral"
           variant="ghost"
         />

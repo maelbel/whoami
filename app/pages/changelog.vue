@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const title = 'Changelog — Mael Belliard'
+const { site } = useAppConfig()
+
+const title = `Changelog — ${site.name}`
 const description = 'Every shipped version of this site, generated straight from GitHub Releases by the same CI/CD pipeline that deploys it.'
 
 useSeoMeta({ title, description })
@@ -23,7 +25,7 @@ const { entries, error } = await useChangelog()
       >
         Couldn't load the changelog from GitHub right now. See the
         <UButton
-          to="https://github.com/maelbel/whoami/releases"
+          :to="`https://github.com/${site.github.repo}/releases`"
           target="_blank"
           variant="link"
           size="sm"

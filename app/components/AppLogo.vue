@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <div class="flex items-center gap-1.5 font-mono font-semibold text-highlighted">
     <UIcon

@@ -30,7 +30,9 @@ function toChangelogEntry(release: GitHubRelease, isLatest: boolean): ChangelogE
 }
 
 export async function useChangelog() {
-  const { data: releases, error } = await useFetch<GitHubRelease[]>('https://api.github.com/repos/maelbel/whoami/releases', {
+  const { site } = useAppConfig()
+
+  const { data: releases, error } = await useFetch<GitHubRelease[]>(`https://api.github.com/repos/${site.github.repo}/releases`, {
     key: 'gh-releases',
     headers: { Accept: 'application/vnd.github+json' }
   })
