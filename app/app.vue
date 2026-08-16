@@ -25,11 +25,11 @@ useSeoMeta({
 })
 
 const navLinks = [
-  { label: 'Skills', to: '#skills' },
-  { label: 'Experience', to: '#experience' },
-  { label: 'Projects', to: '#projects' },
-  { label: 'Pipeline', to: '#pipeline' },
-  { label: 'Contact', to: '#contact' }
+  { label: 'Skills', to: '/#skills' },
+  { label: 'Experience', to: '/#experience' },
+  { label: 'Projects', to: '/#projects' },
+  { label: 'Pipeline', to: '/#pipeline' },
+  { label: 'Contact', to: '/#contact' }
 ]
 
 const socialLinks = [
