@@ -1,5 +1,18 @@
 <script setup lang="ts">
+import type { ButtonProps } from '@nuxt/ui/components/Button.vue'
+
 const { site } = useAppConfig()
+
+const heroLinks: ButtonProps[] = [
+  { label: 'View projects', to: '#projects', trailingIcon: 'i-lucide-arrow-right', size: 'xl' },
+  { label: 'Get in touch', to: '#contact', size: 'xl', color: 'neutral', variant: 'subtle' }
+]
+
+const contactLinks: ButtonProps[] = [
+  { label: site.email, to: `mailto:${site.email}`, icon: 'i-lucide-mail', size: 'lg' },
+  { label: 'GitHub', to: `https://github.com/${site.github.username}`, target: '_blank', icon: 'i-simple-icons-github', size: 'lg', color: 'neutral', variant: 'outline' },
+  { label: 'LinkedIn', to: site.linkedin, target: '_blank', icon: 'i-simple-icons-linkedin', size: 'lg', color: 'neutral', variant: 'outline' }
+]
 </script>
 
 <template>
@@ -9,18 +22,7 @@ const { site } = useAppConfig()
       title="Hi, I'm Mael Belliard."
       description="I build and ship full-stack apps end to end — from Vue/Nuxt interfaces to NestJS/FastAPI services — then containerize, wire up CI/CD and self-host them behind Traefik. Currently building at LM Control."
       orientation="horizontal"
-      :links="[{
-        label: 'View projects',
-        to: '#projects',
-        trailingIcon: 'i-lucide-arrow-right',
-        size: 'xl'
-      }, {
-        label: 'Get in touch',
-        to: '#contact',
-        size: 'xl',
-        color: 'neutral',
-        variant: 'subtle'
-      }]"
+      :links="heroLinks"
     >
       <UCard
         variant="subtle"
@@ -138,13 +140,13 @@ const { site } = useAppConfig()
         </template>
         <div class="flex flex-wrap gap-2 mt-4">
           <UBadge
-            v-for="t in featuredProject.tech"
-            :key="t"
+            v-for="tech in featuredProject.tech"
+            :key="tech"
             color="neutral"
             variant="subtle"
             size="sm"
           >
-            {{ t }}
+            {{ tech }}
           </UBadge>
         </div>
       </UPageCard>
@@ -163,13 +165,13 @@ const { site } = useAppConfig()
             <div class="flex flex-wrap items-center justify-between gap-2 w-full">
               <div class="flex flex-wrap gap-1.5">
                 <UBadge
-                  v-for="t in project.tech"
-                  :key="t"
+                  v-for="tech in project.tech"
+                  :key="tech"
                   color="neutral"
                   variant="subtle"
                   size="sm"
                 >
-                  {{ t }}
+                  {{ tech }}
                 </UBadge>
               </div>
               <UButton
@@ -209,28 +211,7 @@ const { site } = useAppConfig()
         title="Let's build something."
         description="Open to fullstack and DevOps-leaning opportunities — or just want to talk shop about self-hosting."
         variant="subtle"
-        :links="[{
-          label: site.email,
-          to: `mailto:${site.email}`,
-          icon: 'i-lucide-mail',
-          size: 'lg'
-        }, {
-          label: 'GitHub',
-          to: `https://github.com/${site.github.username}`,
-          target: '_blank',
-          icon: 'i-simple-icons-github',
-          size: 'lg',
-          color: 'neutral',
-          variant: 'outline'
-        }, {
-          label: 'LinkedIn',
-          to: site.linkedin,
-          target: '_blank',
-          icon: 'i-simple-icons-linkedin',
-          size: 'lg',
-          color: 'neutral',
-          variant: 'outline'
-        }]"
+        :links="contactLinks"
       />
     </UPageSection>
   </div>
