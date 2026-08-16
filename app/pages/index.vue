@@ -223,10 +223,10 @@ const { site } = useAppConfig()
           color: 'neutral',
           variant: 'outline'
         }, {
-          label: site.url.replace('https://', ''),
-          to: site.url,
+          label: 'LinkedIn',
+          to: site.linkedin,
           target: '_blank',
-          icon: 'i-lucide-globe',
+          icon: 'i-simple-icons-linkedin',
           size: 'lg',
           color: 'neutral',
           variant: 'outline'

@@ -3,6 +3,7 @@ export default defineAppConfig({
     name: 'Mael Belliard',
     email: 'contact@maelbelliard.fr',
     url: 'https://www.maelbelliard.fr',
+    linkedin: 'https://www.linkedin.com/in/mael-belliard/',
     github: {
       username: 'maelbel',
       repo: 'maelbel/whoami'
