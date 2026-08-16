@@ -41,7 +41,7 @@ const links = [
       </template>
 
       <template #default>
-        <UNavigationMenu :items="links.map(l => ({ label: l.label, to: l.to }))" />
+        <UNavigationMenu :items="links" />
       </template>
 
       <template #right>
@@ -54,6 +54,14 @@ const links = [
         >
           build: passing
         </UBadge>
+
+        <UButton
+          to="/changelog"
+          icon="i-lucide-history"
+          aria-label="Changelog"
+          color="neutral"
+          variant="ghost"
+        />
 
         <UColorModeButton />
 

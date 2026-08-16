@@ -24,8 +24,6 @@ Ideas for future iterations, not yet implemented.
 
 - **Self-hosting architecture diagram** — a page documenting the real infra
   (Traefik → Docker → services).
-- **Portfolio changelog page** — version the site itself (`v1.2.0 — added dark mode…`) and
-  ship it through the same pipeline shown in the "How it ships" section.
 - **JSON/YAML-sourced résumé** — one data file renders both the on-page résumé and a
   generated PDF, so they can't drift out of sync.
 

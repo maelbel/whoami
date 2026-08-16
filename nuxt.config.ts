@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
+    '@nuxtjs/mdc',
     '@vercel/analytics',
     '@vercel/speed-insights'
   ],
@@ -14,7 +15,8 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   routeRules: {
-    '/': { prerender: true }
+    '/': { prerender: true },
+    '/changelog': { isr: 3600 }
   },
 
   compatibilityDate: '2026-06-30',

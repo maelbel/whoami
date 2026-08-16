@@ -242,7 +242,7 @@ const pipeline = [
         :title="featured.name"
         :description="featured.description"
         orientation="horizontal"
-        to="https://github.com/maelbel/croesus"
+        :to="featured.repo"
         target="_blank"
         highlight
         class="mb-6"
