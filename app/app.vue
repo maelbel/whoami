@@ -24,6 +24,7 @@ useSeoMeta({
 
 const links = [
   { label: 'Skills', to: '#skills' },
+  { label: 'Experience', to: '#experience' },
   { label: 'Projects', to: '#projects' },
   { label: 'Pipeline', to: '#pipeline' },
   { label: 'Contact', to: '#contact' }
