@@ -62,26 +62,34 @@ const socialLinks = [
           build: passing
         </UBadge>
 
-        <UButton
-          to="/changelog"
-          icon="i-lucide-history"
-          aria-label="Changelog"
-          color="neutral"
-          variant="ghost"
-        />
+        <UTooltip text="Changelog">
+          <UButton
+            to="/changelog"
+            icon="i-lucide-history"
+            aria-label="Changelog"
+            color="neutral"
+            variant="ghost"
+          />
+        </UTooltip>
 
-        <UColorModeButton />
+        <UTooltip text="Toggle theme">
+          <UColorModeButton />
+        </UTooltip>
 
-        <UButton
+        <UTooltip
           v-for="link in socialLinks"
           :key="link.label"
-          :to="link.to"
-          :target="link.external ? '_blank' : undefined"
-          :icon="link.icon"
-          :aria-label="link.label"
-          color="neutral"
-          variant="ghost"
-        />
+          :text="link.label"
+        >
+          <UButton
+            :to="link.to"
+            :target="link.external ? '_blank' : undefined"
+            :icon="link.icon"
+            :aria-label="link.label"
+            color="neutral"
+            variant="ghost"
+          />
+        </UTooltip>
       </template>
     </UHeader>
 
@@ -99,16 +107,20 @@ const socialLinks = [
       </template>
 
       <template #right>
-        <UButton
+        <UTooltip
           v-for="link in socialLinks"
           :key="link.label"
-          :to="link.to"
-          :target="link.external ? '_blank' : undefined"
-          :icon="link.icon"
-          :aria-label="link.label"
-          color="neutral"
-          variant="ghost"
-        />
+          :text="link.label"
+        >
+          <UButton
+            :to="link.to"
+            :target="link.external ? '_blank' : undefined"
+            :icon="link.icon"
+            :aria-label="link.label"
+            color="neutral"
+            variant="ghost"
+          />
+        </UTooltip>
       </template>
     </UFooter>
   </UApp>
