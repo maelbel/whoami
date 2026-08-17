@@ -4,9 +4,6 @@ Ideas for future iterations, not yet implemented.
 
 ## Data-driven / live
 
-- **Repo stats ticker** — fetch stars / last-commit / open-issues for pinned repos at build
-  time and render as compact stat tiles, so the projects section stays current with no
-  manual upkeep.
 - **"Now" panel** — a small widget showing the latest commit message + repo (via the GitHub
   events API) as a live status line instead of a static bio.
 

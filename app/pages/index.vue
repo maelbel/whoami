@@ -15,6 +15,8 @@ const contactLinks: ButtonProps[] = [
 ]
 
 const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
+
+const { stats: repoStats } = useRepoStats([featuredProject, ...projects].map(project => ({ key: project.name, repo: project.repo })))
 </script>
 
 <template>
@@ -115,7 +117,6 @@ const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
       description="A flagship project I actively maintain, plus a few things built along the way."
     >
       <UPageCard
-        :title="featuredProject.name"
         :description="featuredProject.description"
         orientation="horizontal"
         :to="featuredProject.repo"
@@ -124,54 +125,65 @@ const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
         class="mb-6"
       >
         <template #header>
-          <div class="flex flex-wrap items-center gap-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="text-base font-semibold text-highlighted">{{ featuredProject.name }}</span>
+            <div class="flex flex-wrap items-center gap-2">
+              <UBadge
+                v-if="ciStatus"
+                :color="ciStatus.color"
+                variant="subtle"
+                :icon="ciStatus.icon"
+              >
+                {{ ciStatus.label }}
+              </UBadge>
+              <UBadge
+                v-else
+                color="neutral"
+                variant="subtle"
+                :icon="ciError ? 'i-lucide-circle-help' : 'i-lucide-loader-circle'"
+              >
+                {{ ciError ? 'CI status unavailable' : 'Checking CI…' }}
+              </UBadge>
+              <UBadge
+                color="neutral"
+                variant="outline"
+              >
+                {{ featuredProject.license }}
+              </UBadge>
+              <RepoStats :stats="repoStats?.[featuredProject.name]" />
+            </div>
+          </div>
+        </template>
+        <template #footer>
+          <div class="flex flex-wrap gap-2">
             <UBadge
-              v-if="ciStatus"
-              :color="ciStatus.color"
-              variant="subtle"
-              :icon="ciStatus.icon"
-            >
-              {{ ciStatus.label }}
-            </UBadge>
-            <UBadge
-              v-else
+              v-for="tech in featuredProject.tech"
+              :key="tech"
               color="neutral"
               variant="subtle"
-              :icon="ciError ? 'i-lucide-circle-help' : 'i-lucide-loader-circle'"
+              size="sm"
             >
-              {{ ciError ? 'CI status unavailable' : 'Checking CI…' }}
-            </UBadge>
-            <UBadge
-              color="neutral"
-              variant="outline"
-            >
-              {{ featuredProject.license }}
+              {{ tech }}
             </UBadge>
           </div>
         </template>
-        <div class="flex flex-wrap gap-2 mt-4">
-          <UBadge
-            v-for="tech in featuredProject.tech"
-            :key="tech"
-            color="neutral"
-            variant="subtle"
-            size="sm"
-          >
-            {{ tech }}
-          </UBadge>
-        </div>
       </UPageCard>
 
       <UPageGrid>
         <UPageCard
           v-for="project in projects"
           :key="project.name"
-          :title="project.name"
           :description="project.description"
           :to="project.repo"
           target="_blank"
           spotlight
         >
+          <template #header>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-base font-semibold text-highlighted">{{ project.name }}</span>
+              <RepoStats :stats="repoStats?.[project.name]" />
+            </div>
+          </template>
           <template #footer>
             <div class="flex flex-wrap items-center justify-between gap-2 w-full">
               <div class="flex flex-wrap gap-1.5">
