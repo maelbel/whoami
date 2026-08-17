@@ -1,0 +1,29 @@
+services:
+  whoami:
+    container_name: 'whoami'
+    build:
+      context: .
+      target: development
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      NODE_OPTIONS: "--max-old-space-size=512"
+    ports:
+      - "3003:3000"
+    volumes:
+      - ./:/app
+    tty: true
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.whoami.loadbalancer.server.port=3000
+      - traefik.http.routers.whoami.rule=Host(`whoami.maelbelliard.fr`)
+      - traefik.http.routers.whoami.service=whoami
+      - traefik.http.routers.whoami.entrypoints=websecure
+      - traefik.http.routers.whoami.tls=true
+      - traefik.http.routers.whoami.tls.certresolver=ovh
+
+networks:
+  proxy:
+    external: true
