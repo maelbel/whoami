@@ -4,8 +4,6 @@ Ideas for future iterations, not yet implemented.
 
 ## Data-driven / live
 
-- **Real CI badge** — pull Croesus's actual `ci.yml` run status via the GitHub Actions API
-  instead of a static "passing" pill.
 - **Repo stats ticker** — fetch stars / last-commit / open-issues for pinned repos at build
   time and render as compact stat tiles, so the projects section stays current with no
   manual upkeep.

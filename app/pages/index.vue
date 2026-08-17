@@ -13,6 +13,8 @@ const contactLinks: ButtonProps[] = [
   { label: 'GitHub', to: `https://github.com/${site.github.username}`, target: '_blank', icon: 'i-simple-icons-github', size: 'lg', color: 'neutral', variant: 'outline' },
   { label: 'LinkedIn', to: site.linkedin, target: '_blank', icon: 'i-simple-icons-linkedin', size: 'lg', color: 'neutral', variant: 'outline' }
 ]
+
+const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
 </script>
 
 <template>
@@ -124,11 +126,20 @@ const contactLinks: ButtonProps[] = [
         <template #header>
           <div class="flex flex-wrap items-center gap-2">
             <UBadge
-              color="primary"
+              v-if="ciStatus"
+              :color="ciStatus.color"
               variant="subtle"
-              icon="i-lucide-circle-check"
+              :icon="ciStatus.icon"
             >
-              {{ featuredProject.status }}
+              {{ ciStatus.label }}
+            </UBadge>
+            <UBadge
+              v-else
+              color="neutral"
+              variant="subtle"
+              :icon="ciError ? 'i-lucide-circle-help' : 'i-lucide-loader-circle'"
+            >
+              {{ ciError ? 'CI status unavailable' : 'Checking CI…' }}
             </UBadge>
             <UBadge
               color="neutral"

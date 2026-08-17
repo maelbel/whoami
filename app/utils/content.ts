@@ -19,7 +19,6 @@ export interface Project {
 }
 
 export interface FeaturedProject extends Project {
-  status: string
   license: string
 }
 
@@ -118,7 +117,6 @@ export const featuredProject: FeaturedProject = {
   description: 'Open-source net worth tracker — self-hosted or as a desktop app for Windows/macOS/Linux — with real support for French tax-advantaged accounts (PEA, assurance-vie), real estate, and debts.',
   tech: ['Vue', 'Nuxt UI', 'FastAPI', 'PostgreSQL', 'Docker', 'Tauri'],
   repo: 'https://github.com/maelbel/croesus',
-  status: 'CI passing',
   license: 'AGPL-3.0'
 }
 
