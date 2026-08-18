@@ -137,6 +137,7 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
         target="_blank"
         highlight
         class="mb-6"
+        :ui="{ container: 'lg:grid-cols-1', footer: 'w-full' }"
       >
         <template #header>
           <div class="flex flex-wrap items-center justify-between gap-2">
@@ -169,16 +170,22 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
           </div>
         </template>
         <template #footer>
-          <div class="flex flex-wrap gap-2">
-            <UBadge
-              v-for="tech in featuredProject.tech"
-              :key="tech"
-              color="neutral"
-              variant="subtle"
-              size="sm"
-            >
-              {{ tech }}
-            </UBadge>
+          <div class="flex flex-col gap-2 w-full">
+            <div class="flex flex-wrap gap-2">
+              <UBadge
+                v-for="tech in featuredProject.tech"
+                :key="tech"
+                color="neutral"
+                variant="subtle"
+                size="sm"
+              >
+                {{ tech }}
+              </UBadge>
+            </div>
+            <ComposePeek
+              v-if="featuredProject.compose"
+              :compose="featuredProject.compose"
+            />
           </div>
         </template>
       </UPageCard>
@@ -199,29 +206,35 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
             </div>
           </template>
           <template #footer>
-            <div class="flex flex-wrap items-center justify-between gap-2 w-full">
-              <div class="flex flex-wrap gap-1.5">
-                <UBadge
-                  v-for="tech in project.tech"
-                  :key="tech"
-                  color="neutral"
-                  variant="subtle"
+            <div class="flex flex-col gap-2 w-full">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex flex-wrap gap-1.5">
+                  <UBadge
+                    v-for="tech in project.tech"
+                    :key="tech"
+                    color="neutral"
+                    variant="subtle"
+                    size="sm"
+                  >
+                    {{ tech }}
+                  </UBadge>
+                </div>
+                <UButton
+                  v-if="project.live"
+                  :to="project.live"
+                  target="_blank"
+                  variant="link"
                   size="sm"
+                  trailing-icon="i-lucide-external-link"
+                  @click.stop
                 >
-                  {{ tech }}
-                </UBadge>
+                  Live
+                </UButton>
               </div>
-              <UButton
-                v-if="project.live"
-                :to="project.live"
-                target="_blank"
-                variant="link"
-                size="sm"
-                trailing-icon="i-lucide-external-link"
-                @click.stop
-              >
-                Live
-              </UButton>
+              <ComposePeek
+                v-if="project.compose"
+                :compose="project.compose"
+              />
             </div>
           </template>
         </UPageCard>

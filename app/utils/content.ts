@@ -16,6 +16,7 @@ export interface Project {
   tech: string[]
   repo: string
   live?: string
+  compose?: string
 }
 
 export interface FeaturedProject extends Project {
@@ -117,7 +118,24 @@ export const featuredProject: FeaturedProject = {
   description: 'Open-source net worth tracker — self-hosted or as a desktop app for Windows/macOS/Linux — with real support for French tax-advantaged accounts (PEA, assurance-vie), real estate, and debts.',
   tech: ['Vue', 'Nuxt UI', 'FastAPI', 'PostgreSQL', 'Docker', 'Tauri'],
   repo: 'https://github.com/maelbel/croesus',
-  license: 'AGPL-3.0'
+  license: 'AGPL-3.0',
+  compose: `services:
+  croesus:
+    image: ghcr.io/maelbel/croesus:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: \${DATABASE_URL}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.croesus.rule=Host(\`croesus.\${DOMAIN}\`)
+      - traefik.http.routers.croesus.tls.certresolver=le
+      - traefik.http.services.croesus.loadbalancer.server.port=3000
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true`
 }
 
 export const projects: Project[] = [
