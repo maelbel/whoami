@@ -26,6 +26,7 @@ useSeoMeta({
 
 const route = useRoute()
 const activeSection = useActiveSection()
+const isChangelogActive = computed(() => route.path === '/changelog')
 
 const navLinks = computed(() => [
   { label: 'Home', to: '/', active: route.path === '/' && !activeSection.value },
@@ -71,8 +72,8 @@ const socialLinks = [
             to="/changelog"
             icon="i-lucide-history"
             aria-label="Changelog"
-            color="neutral"
-            variant="ghost"
+            :color="isChangelogActive ? 'primary' : 'neutral'"
+            :variant="isChangelogActive ? 'soft' : 'ghost'"
           />
         </UTooltip>
 
