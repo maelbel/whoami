@@ -12,8 +12,6 @@ Ideas for future iterations, not yet implemented.
 
 - **Self-hosting architecture diagram** — a page documenting the real infra
   (Traefik → Docker → services).
-- **JSON/YAML-sourced résumé** — one data file renders both the on-page résumé and a
-  generated PDF, so they can't drift out of sync.
 
 ## Content gaps to fill in later
 
