@@ -6,8 +6,6 @@ Ideas for future iterations, not yet implemented.
 
 - **Typeable terminal hero** — swap the static `$ whoami` card for a minimal fake shell that
   accepts a few real commands (`whoami`, `skills`, `contact`, `sudo hire-me`).
-- **`docker-compose.yml` peek on project cards** — an expandable, redacted snippet of the
-  actual compose file / Traefik labels used to deploy that project.
 - **Hidden `/root` route or Konami-code easter egg** — unlocks a blooper reel or hidden page.
 
 ## Structural
