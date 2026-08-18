@@ -2,11 +2,6 @@
 
 Ideas for future iterations, not yet implemented.
 
-## Data-driven / live
-
-- **"Now" panel** — a small widget showing the latest commit message + repo (via the GitHub
-  events API) as a live status line instead of a static bio.
-
 ## Interactive
 
 - **Typeable terminal hero** — swap the static `$ whoami` card for a minimal fake shell that
