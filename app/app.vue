@@ -45,7 +45,7 @@ const socialLinks = [
 
 <template>
   <UApp>
-    <UHeader :ui="{ root: 'border-b border-default backdrop-blur bg-default/80' }">
+    <UHeader :ui="{ root: 'print:hidden border-b border-default backdrop-blur bg-default/80' }">
       <template #left>
         <NuxtLink to="/">
           <AppLogo class="w-auto h-6 shrink-0" />
@@ -102,9 +102,12 @@ const socialLinks = [
       <NuxtPage />
     </UMain>
 
-    <USeparator icon="i-lucide-git-commit-vertical" />
+    <USeparator
+      icon="i-lucide-git-commit-vertical"
+      class="print:hidden"
+    />
 
-    <UFooter>
+    <UFooter :ui="{ root: 'print:hidden' }">
       <template #left>
         <p class="text-sm text-muted font-mono">
           $ echo "built with Nuxt UI" • © {{ new Date().getFullYear() }} {{ site.name }}

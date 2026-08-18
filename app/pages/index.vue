@@ -5,7 +5,8 @@ const { site } = useAppConfig()
 
 const heroLinks: ButtonProps[] = [
   { label: 'View projects', to: '#projects', trailingIcon: 'i-lucide-arrow-right', size: 'xl' },
-  { label: 'Get in touch', to: '#contact', size: 'xl', color: 'neutral', variant: 'subtle' }
+  { label: 'Get in touch', to: '#contact', size: 'xl', color: 'neutral', variant: 'subtle' },
+  { label: 'Résumé', to: '/resume', size: 'xl', color: 'neutral', variant: 'outline', icon: 'i-lucide-file-down' }
 ]
 
 const contactLinks: ButtonProps[] = [
@@ -26,9 +27,9 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
 <template>
   <div>
     <UPageHero
-      headline="Fullstack Developer · Lyon, France"
-      title="Hi, I'm Mael Belliard."
-      description="I build and ship full-stack apps end to end — from Vue/Nuxt interfaces to NestJS/FastAPI services — then containerize, wire up CI/CD and self-host them behind Traefik. Currently building at LM Control."
+      :headline="`${resumeTitle} · ${resumeLocation}`"
+      :title="`Hi, I'm ${site.name}.`"
+      :description="resumeSummary"
       orientation="horizontal"
       :links="heroLinks"
     >
