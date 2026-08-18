@@ -17,6 +17,8 @@ const contactLinks: ButtonProps[] = [
 const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
 
 const { stats: repoStats } = useRepoStats([featuredProject, ...projects].map(project => ({ key: project.name, repo: project.repo })))
+
+useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
 </script>
 
 <template>

@@ -24,13 +24,17 @@ useSeoMeta({
   twitterCard: 'summary_large_image'
 })
 
-const navLinks = [
-  { label: 'Skills', to: '/#skills' },
-  { label: 'Experience', to: '/#experience' },
-  { label: 'Projects', to: '/#projects' },
-  { label: 'Pipeline', to: '/#pipeline' },
-  { label: 'Contact', to: '/#contact' }
-]
+const route = useRoute()
+const activeSection = useActiveSection()
+
+const navLinks = computed(() => [
+  { label: 'Home', to: '/', active: route.path === '/' && !activeSection.value },
+  { label: 'Skills', to: '/#skills', active: activeSection.value === 'skills' },
+  { label: 'Experience', to: '/#experience', active: activeSection.value === 'experience' },
+  { label: 'Projects', to: '/#projects', active: activeSection.value === 'projects' },
+  { label: 'Pipeline', to: '/#pipeline', active: activeSection.value === 'pipeline' },
+  { label: 'Contact', to: '/#contact', active: activeSection.value === 'contact' }
+])
 
 const socialLinks = [
   { to: `mailto:${site.email}`, icon: 'i-lucide-mail', label: 'Email' },
