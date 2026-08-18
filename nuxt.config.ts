@@ -21,16 +21,16 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-06-30',
 
+  nitro: {
+    preset: 'vercel'
+  },
+
   vite: {
     server: {
       allowedHosts: [
         'whoami.maelbelliard.fr'
       ]
     }
-  },
-
-  nitro: {
-    preset: 'vercel'
   },
 
   eslint: {
