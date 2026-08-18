@@ -16,6 +16,8 @@ const contactLinks: ButtonProps[] = [
 
 const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
 
+const { status: nowStatus } = useNowStatus(site.github.username)
+
 const { stats: repoStats } = useRepoStats([featuredProject, ...projects].map(project => ({ key: project.name, repo: project.repo })))
 
 useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
@@ -43,9 +45,19 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
         <p class="text-muted mb-2">
           mael-belliard — fullstack-developer
         </p>
-        <p><span class="text-primary">$</span> cat status.txt</p>
+        <p><span class="text-primary">$</span> curl -s api.github.com/users/{{ site.github.username }}/events | jq '.[0]'</p>
         <p class="text-muted mb-2">
-          based in Lyon · working @ LM Control
+          <NuxtLink
+            v-if="nowStatus"
+            :to="nowStatus.url"
+            target="_blank"
+            class="hover:text-primary transition-colors"
+          >
+            "{{ nowStatus.message }}" → {{ nowStatus.repo }} · {{ nowStatus.time }}
+          </NuxtLink>
+          <template v-else>
+            based in Lyon · working @ LM Control
+          </template>
         </p>
         <p><span class="text-primary">$</span> ./deploy.sh --env production</p>
         <p class="text-muted">
