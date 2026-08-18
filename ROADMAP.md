@@ -13,7 +13,7 @@ Ideas for future iterations, not yet implemented.
   accepts a few real commands (`whoami`, `skills`, `contact`, `sudo hire-me`).
 - **`docker-compose.yml` peek on project cards** — an expandable, redacted snippet of the
   actual compose file / Traefik labels used to deploy that project.
-- **Hidden `/root` route or Konami-code easter egg** — unlocks a changelog or blooper reel.
+- **Hidden `/root` route or Konami-code easter egg** — unlocks a blooper reel or hidden page.
 
 ## Structural
 
