@@ -33,15 +33,11 @@ function repoSlug(repoUrl: string) {
 export function useCiStatus(repoUrl: string, workflow = 'ci.yml') {
   const repo = repoSlug(repoUrl)
 
-  const { data, error } = useFetch<WorkflowRunsResponse>(
-    `https://api.github.com/repos/${repo}/actions/workflows/${workflow}/runs`,
-    {
-      key: `gh-ci-${repo}-${workflow}`,
-      server: false,
-      query: { per_page: 1 },
-      headers: { Accept: 'application/vnd.github+json' }
-    }
-  )
+  const { data, error } = useFetch<WorkflowRunsResponse>('/api/github', {
+    key: `gh-ci-${repo}-${workflow}`,
+    server: false,
+    query: { path: `/repos/${repo}/actions/workflows/${workflow}/runs?per_page=1`, ttl: 60 }
+  })
 
   const status = computed<CiStatus | undefined>(() => {
     const run = data.value?.workflow_runs?.[0]

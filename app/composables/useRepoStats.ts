@@ -18,8 +18,8 @@ export function useRepoStats(repos: { key: string, repo: string }[]) {
   const { data, error } = useAsyncData('repo-stats', async () => {
     const entries = await Promise.all(repos.map(async ({ key, repo }) => {
       try {
-        const res = await $fetch<GitHubRepoResponse>(`https://api.github.com/repos/${repoSlug(repo)}`, {
-          headers: { Accept: 'application/vnd.github+json' }
+        const res = await $fetch<GitHubRepoResponse>('/api/github', {
+          query: { path: `/repos/${repoSlug(repo)}`, ttl: 3600 }
         })
 
         const stats: RepoStats = {

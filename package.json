@@ -19,10 +19,12 @@
     "@vercel/speed-insights": "^2.0.0",
     "mermaid": "^11.16.1",
     "nuxt": "^4.5.2",
+    "redis": "^6.2.1",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
+    "@types/node": "^26.2.0",
     "eslint": "^10.8.1",
     "typescript": "^6.0.3",
     "vue-tsc": "^3.3.9"

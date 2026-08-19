@@ -5,6 +5,8 @@ services:
       context: .
       target: development
     restart: unless-stopped
+    env_file:
+      - .env.local
     environment:
       NODE_ENV: development
       NODE_OPTIONS: "--max-old-space-size=512"

@@ -14,6 +14,11 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  runtimeConfig: {
+    githubToken: '',
+    redisUrl: process.env.REDIS_URL || ''
+  },
+
   routeRules: {
     '/': { prerender: true },
     '/changelog': { isr: 3600 }
