@@ -17,8 +17,6 @@ const contactLinks: ButtonProps[] = [
 
 const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
 
-const { status: nowStatus } = useNowStatus(site.github.username)
-
 const { stats: repoStats } = useRepoStats([featuredProject, ...projects].map(project => ({ key: project.name, repo: project.repo })))
 
 useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
@@ -33,41 +31,7 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
       orientation="horizontal"
       :links="heroLinks"
     >
-      <UCard
-        variant="subtle"
-        class="font-mono text-sm"
-      >
-        <div class="flex items-center gap-1.5 mb-3">
-          <span class="size-2.5 rounded-full bg-red-500/70" />
-          <span class="size-2.5 rounded-full bg-yellow-500/70" />
-          <span class="size-2.5 rounded-full bg-green-500/70" />
-        </div>
-        <p><span class="text-primary">$</span> whoami</p>
-        <p class="text-muted mb-2">
-          mael-belliard — fullstack-developer
-        </p>
-        <p><span class="text-primary">$</span> curl -s api.github.com/users/{{ site.github.username }}/events | jq '.[0]'</p>
-        <p class="text-muted mb-2">
-          <NuxtLink
-            v-if="nowStatus"
-            :to="nowStatus.url"
-            target="_blank"
-            class="hover:text-primary transition-colors"
-          >
-            "{{ nowStatus.message }}" → {{ nowStatus.repo }} · {{ nowStatus.time }}
-          </NuxtLink>
-          <template v-else>
-            based in Lyon · working @ LM Control
-          </template>
-        </p>
-        <p><span class="text-primary">$</span> ./deploy.sh --env production</p>
-        <p class="text-muted">
-          <UIcon
-            name="i-lucide-check"
-            class="text-primary align-[-2px]"
-          /> shipped.
-        </p>
-      </UCard>
+      <TerminalHero />
     </UPageHero>
 
     <UPageSection

@@ -4,8 +4,6 @@ Ideas for future iterations, not yet implemented.
 
 ## Interactive
 
-- **Typeable terminal hero** — swap the static `$ whoami` card for a minimal fake shell that
-  accepts a few real commands (`whoami`, `skills`, `contact`, `sudo hire-me`).
 - **Hidden `/root` route or Konami-code easter egg** — unlocks a blooper reel or hidden page.
 
 ## Content gaps to fill in later
