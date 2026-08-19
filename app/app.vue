@@ -27,6 +27,8 @@ useSeoMeta({
 const route = useRoute()
 const activeSection = useActiveSection()
 
+const { status: ciStatus, error: ciError } = useCiStatus(`https://github.com/${site.github.repo}`)
+
 const navLinks = computed(() => [
   { label: 'Home', to: '/', active: route.path === '/' && !activeSection.value },
   { label: 'Skills', to: '/#skills', active: activeSection.value === 'skills' },
@@ -79,13 +81,13 @@ const headerSocialLinks = socialLinks.filter(link => link.label !== 'Email')
 
       <template #right>
         <UBadge
-          color="primary"
+          :color="ciStatus ? ciStatus.color : 'neutral'"
           variant="subtle"
-          icon="i-lucide-circle-check"
+          :icon="ciStatus ? ciStatus.icon : (ciError ? 'i-lucide-circle-help' : 'i-lucide-loader-circle')"
           class="hidden sm:flex font-mono"
           size="sm"
         >
-          build: passing
+          build: {{ ciStatus ? ciStatus.label.replace('CI ', '') : (ciError ? 'unknown' : 'checking') }}
         </UBadge>
 
         <UTooltip text="Toggle theme">
