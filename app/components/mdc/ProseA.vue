@@ -5,11 +5,11 @@ defineProps<{
 </script>
 
 <template>
-  <NuxtLink
-    :href="href"
+  <ULink
+    :to="href"
     target="_blank"
-    rel="noopener noreferrer"
+    class="text-primary hover:text-primary/75 active:text-primary/75 outline-primary/25 focus-visible:outline-3"
   >
     <slot />
-  </NuxtLink>
+  </ULink>
 </template>
