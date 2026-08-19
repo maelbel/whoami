@@ -8,11 +8,6 @@ Ideas for future iterations, not yet implemented.
   accepts a few real commands (`whoami`, `skills`, `contact`, `sudo hire-me`).
 - **Hidden `/root` route or Konami-code easter egg** — unlocks a blooper reel or hidden page.
 
-## Structural
-
-- **Self-hosting architecture diagram** — a page documenting the real infra
-  (Traefik → Docker → services).
-
 ## Content gaps to fill in later
 
 - `culina-backend` / `culina-frontend` / `cats` / `L3SPIInfo` — left out of the projects
