@@ -254,6 +254,14 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
         size="lg"
         class="w-full"
       />
+      <UButton
+        to="/infra"
+        trailing-icon="i-lucide-arrow-right"
+        variant="link"
+        class="mt-4"
+      >
+        See the live infrastructure behind it
+      </UButton>
     </UPageSection>
 
     <UPageSection>

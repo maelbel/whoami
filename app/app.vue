@@ -27,6 +27,7 @@ useSeoMeta({
 const route = useRoute()
 const activeSection = useActiveSection()
 const isChangelogActive = computed(() => route.path === '/changelog')
+const isInfraActive = computed(() => route.path === '/infra')
 
 const navLinks = computed(() => [
   { label: 'Home', to: '/', active: route.path === '/' && !activeSection.value },
@@ -41,6 +42,8 @@ const socialLinks = [
   { to: `mailto:${site.email}`, icon: 'i-lucide-mail', label: 'Email' },
   { to: `https://github.com/${site.github.username}`, icon: 'i-simple-icons-github', label: 'GitHub', external: true }
 ]
+
+const headerSocialLinks = socialLinks.filter(link => link.label !== 'Email')
 </script>
 
 <template>
@@ -77,12 +80,22 @@ const socialLinks = [
           />
         </UTooltip>
 
+        <UTooltip text="Infrastructure">
+          <UButton
+            to="/infra"
+            icon="i-lucide-server"
+            aria-label="Infrastructure"
+            :color="isInfraActive ? 'primary' : 'neutral'"
+            :variant="isInfraActive ? 'soft' : 'ghost'"
+          />
+        </UTooltip>
+
         <UTooltip text="Toggle theme">
           <UColorModeButton />
         </UTooltip>
 
         <UTooltip
-          v-for="link in socialLinks"
+          v-for="link in headerSocialLinks"
           :key="link.label"
           :text="link.label"
         >

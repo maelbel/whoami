@@ -24,22 +24,45 @@ export const featuredProject: FeaturedProject = {
   repo: 'https://github.com/maelbel/croesus',
   license: 'AGPL-3.0',
   compose: `services:
-  croesus:
-    image: ghcr.io/maelbel/croesus:latest
+  backend:
+    image: ghcr.io/maelbel/croesus-backend:latest
     restart: unless-stopped
     environment:
-      DATABASE_URL: \${DATABASE_URL}
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.croesus.rule=Host(\`croesus.\${DOMAIN}\`)
-      - traefik.http.routers.croesus.tls.certresolver=le
-      - traefik.http.services.croesus.loadbalancer.server.port=3000
+      DATABASE_URL: postgresql://\${POSTGRES_USER}:\${POSTGRES_PASSWORD}@postgres:5432/\${POSTGRES_DB}
     networks:
       - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.croesus-api.rule=Host(\`api.\${DOMAIN}\`)
+      - traefik.http.routers.croesus-api.tls.certresolver=le
+      - traefik.http.services.croesus-api.loadbalancer.server.port=8000
+
+  frontend:
+    image: ghcr.io/maelbel/croesus-frontend:latest
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.croesus.rule=Host(\`\${DOMAIN}\`)
+      - traefik.http.routers.croesus.tls.certresolver=le
+      - traefik.http.services.croesus.loadbalancer.server.port=80
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: \${POSTGRES_DB}
+      POSTGRES_USER: \${POSTGRES_USER}
+      POSTGRES_PASSWORD: \${POSTGRES_PASSWORD}
+    networks:
+      - internal
 
 networks:
   traefik:
-    external: true`
+    external: true
+  internal:
+    driver: bridge`
 }
 
 export const projects: Project[] = [
