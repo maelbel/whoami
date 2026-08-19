@@ -15,3 +15,17 @@ export async function getRedis() {
 
   return client
 }
+
+export async function cached<T>(key: string, ttl: number, fetcher: () => Promise<T>): Promise<T> {
+  const redis = await getRedis()
+
+  const hit = await redis.get(key)
+  if (hit) {
+    return JSON.parse(hit) as T
+  }
+
+  const value = await fetcher()
+  await redis.set(key, JSON.stringify(value), { EX: ttl })
+
+  return value
+}

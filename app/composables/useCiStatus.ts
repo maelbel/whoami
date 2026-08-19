@@ -26,17 +26,13 @@ const CI_STATUS_META: Record<string, Omit<CiStatus, 'url'>> = {
 
 const CI_STATUS_UNKNOWN: Omit<CiStatus, 'url'> = { label: 'CI unknown', color: 'neutral', icon: 'i-lucide-circle-help' }
 
-function repoSlug(repoUrl: string) {
-  return new URL(repoUrl).pathname.replace(/^\/|\.git$/g, '')
-}
-
 export function useCiStatus(repoUrl: string, workflow = 'ci.yml') {
   const repo = repoSlug(repoUrl)
 
   const { data, error } = useFetch<WorkflowRunsResponse>('/api/github', {
     key: `gh-ci-${repo}-${workflow}`,
     server: false,
-    query: { path: `/repos/${repo}/actions/workflows/${workflow}/runs?per_page=1`, ttl: 60 }
+    query: { path: `/repos/${repo}/actions/workflows/${workflow}/runs?per_page=1`, ttl: GITHUB_CACHE_TTL.ci }
   })
 
   const status = computed<CiStatus | undefined>(() => {

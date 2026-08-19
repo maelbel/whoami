@@ -35,7 +35,7 @@ export async function useChangelog() {
 
   const { data: releases, error } = await useFetch<GitHubRelease[]>('/api/github', {
     key: 'gh-releases',
-    query: { path: `/repos/${site.github.repo}/releases`, ttl: 3600 }
+    query: { path: `/repos/${site.github.repo}/releases`, ttl: GITHUB_CACHE_TTL.releases }
   })
 
   const entries = computed<ChangelogEntry[]>(() => {

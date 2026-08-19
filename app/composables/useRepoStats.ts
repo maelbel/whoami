@@ -10,16 +10,12 @@ export interface RepoStats {
   lastCommit: string
 }
 
-function repoSlug(repoUrl: string) {
-  return new URL(repoUrl).pathname.replace(/^\/|\.git$/g, '')
-}
-
 export function useRepoStats(repos: { key: string, repo: string }[]) {
   const { data, error } = useAsyncData('repo-stats', async () => {
     const entries = await Promise.all(repos.map(async ({ key, repo }) => {
       try {
         const res = await $fetch<GitHubRepoResponse>('/api/github', {
-          query: { path: `/repos/${repoSlug(repo)}`, ttl: 3600 }
+          query: { path: `/repos/${repoSlug(repo)}`, ttl: GITHUB_CACHE_TTL.repo }
         })
 
         const stats: RepoStats = {

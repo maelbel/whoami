@@ -150,24 +150,11 @@ const { stats: repoStats } = useRepoStats([
               >
                 Restricted access
               </UBadge>
-              <UBadge
-                v-if="ciStatus"
-                :color="ciStatus.color"
-                variant="subtle"
-                :icon="ciStatus.icon"
-                size="sm"
-              >
-                {{ ciStatus.label }}
-              </UBadge>
-              <UBadge
-                v-else
-                color="neutral"
-                variant="subtle"
-                :icon="ciError ? 'i-lucide-circle-help' : 'i-lucide-loader-circle'"
-                size="sm"
-              >
-                {{ ciError ? 'CI status unavailable' : 'Checking CI…' }}
-              </UBadge>
+              <CiStatusBadge
+                :status="ciStatus"
+                :error="ciError"
+                label="CI"
+              />
               <RepoStats :stats="repoStats?.[featuredProject.name]" />
               <UButton
                 :to="featuredProject.repo"
@@ -316,24 +303,10 @@ const { stats: repoStats } = useRepoStats([
                 <span class="text-base font-semibold text-highlighted">Production</span>
               </div>
               <div class="flex flex-wrap items-center gap-2">
-                <UBadge
-                  v-if="shipStatus"
-                  :color="shipStatus.color"
-                  variant="subtle"
-                  :icon="shipStatus.icon"
-                  size="sm"
-                >
-                  {{ shipStatus.label }}
-                </UBadge>
-                <UBadge
-                  v-else
-                  color="neutral"
-                  variant="subtle"
-                  :icon="shipError ? 'i-lucide-circle-help' : 'i-lucide-loader-circle'"
-                  size="sm"
-                >
-                  {{ shipError ? 'Status unavailable' : 'Checking…' }}
-                </UBadge>
+                <CiStatusBadge
+                  :status="shipStatus"
+                  :error="shipError"
+                />
                 <RepoStats :stats="repoStats?.[site.name]" />
               </div>
             </div>

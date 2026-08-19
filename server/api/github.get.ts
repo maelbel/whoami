@@ -5,24 +5,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Invalid or missing "path" query param' })
   }
 
-  const cacheTtl = Number(ttl) || 3600
-  const cacheKey = `gh:${path}`
+  return cached(`gh:${path}`, Number(ttl) || GITHUB_CACHE_TTL.repo, async () => {
+    const { githubToken } = useRuntimeConfig()
 
-  const redis = await getRedis()
-  const cached = await redis.get(cacheKey)
-  if (cached) {
-    return JSON.parse(cached)
-  }
-
-  const { githubToken } = useRuntimeConfig()
-  const data = await $fetch(`https://api.github.com${path}`, {
-    headers: {
-      Accept: 'application/vnd.github+json',
-      ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {})
-    }
+    return $fetch(`https://api.github.com${path}`, {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {})
+      }
+    })
   })
-
-  await redis.set(cacheKey, JSON.stringify(data), { EX: cacheTtl })
-
-  return data
 })

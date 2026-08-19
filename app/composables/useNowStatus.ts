@@ -15,14 +15,11 @@ export interface NowStatus {
 }
 
 export function useNowStatus(username: string) {
-  const { data, error } = useFetch<GitHubEvent[]>(
-    `https://api.github.com/users/${username}/events/public`,
-    {
-      key: `gh-events-${username}`,
-      server: false,
-      headers: { Accept: 'application/vnd.github+json' }
-    }
-  )
+  const { data, error } = useFetch<GitHubEvent[]>('/api/github', {
+    key: `gh-events-${username}`,
+    server: false,
+    query: { path: `/users/${username}/events/public`, ttl: GITHUB_CACHE_TTL.events }
+  })
 
   const status = computed<NowStatus | undefined>(() => {
     const push = data.value?.find(event => event.type === 'PushEvent' && event.payload.commits?.length)
