@@ -26,8 +26,6 @@ useSeoMeta({
 
 const route = useRoute()
 const activeSection = useActiveSection()
-const isChangelogActive = computed(() => route.path === '/changelog')
-const isInfraActive = computed(() => route.path === '/infra')
 
 const navLinks = computed(() => [
   { label: 'Home', to: '/', active: route.path === '/' && !activeSection.value },
@@ -35,7 +33,27 @@ const navLinks = computed(() => [
   { label: 'Experience', to: '/#experience', active: activeSection.value === 'experience' },
   { label: 'Projects', to: '/#projects', active: activeSection.value === 'projects' },
   { label: 'Pipeline', to: '/#pipeline', active: activeSection.value === 'pipeline' },
-  { label: 'Contact', to: '/#contact', active: activeSection.value === 'contact' }
+  { label: 'Contact', to: '/#contact', active: activeSection.value === 'contact' },
+  {
+    label: 'More',
+    active: route.path === '/changelog' || route.path === '/infra',
+    children: [
+      {
+        label: 'Changelog',
+        description: 'Every shipped release, straight from GitHub.',
+        to: '/changelog',
+        icon: 'i-lucide-history',
+        active: route.path === '/changelog'
+      },
+      {
+        label: 'Infrastructure',
+        description: 'How this site and my self-hosted projects actually run.',
+        to: '/infra',
+        icon: 'i-lucide-server',
+        active: route.path === '/infra'
+      }
+    ]
+  }
 ])
 
 const socialLinks = [
@@ -69,26 +87,6 @@ const headerSocialLinks = socialLinks.filter(link => link.label !== 'Email')
         >
           build: passing
         </UBadge>
-
-        <UTooltip text="Changelog">
-          <UButton
-            to="/changelog"
-            icon="i-lucide-history"
-            aria-label="Changelog"
-            :color="isChangelogActive ? 'primary' : 'neutral'"
-            :variant="isChangelogActive ? 'soft' : 'ghost'"
-          />
-        </UTooltip>
-
-        <UTooltip text="Infrastructure">
-          <UButton
-            to="/infra"
-            icon="i-lucide-server"
-            aria-label="Infrastructure"
-            :color="isInfraActive ? 'primary' : 'neutral'"
-            :variant="isInfraActive ? 'soft' : 'ghost'"
-          />
-        </UTooltip>
 
         <UTooltip text="Toggle theme">
           <UColorModeButton />
