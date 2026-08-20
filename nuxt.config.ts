@@ -5,7 +5,9 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/mdc',
     '@vercel/analytics',
-    '@vercel/speed-insights'
+    '@vercel/speed-insights',
+    '@nuxt/fonts',
+    'nuxt-og-image'
   ],
 
   devtools: {
@@ -13,6 +15,10 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
+
+  site: {
+    url: 'https://www.maelbelliard.fr'
+  },
 
   runtimeConfig: {
     githubToken: '',
@@ -45,5 +51,11 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+
+  fonts: {
+    families: [
+      { name: 'JetBrains Mono', weights: [400, 700], global: true }
+    ]
   }
 })

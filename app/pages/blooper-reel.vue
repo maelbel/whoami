@@ -2,11 +2,14 @@
 const { site } = useAppConfig()
 const route = useRoute()
 
+const description = 'Outtakes from shipping this site — the takes that didn\'t make the highlight reel.'
+
 useSeoMeta({
   title: `Blooper reel — ${site.name}`,
-  description: 'Outtakes from shipping this site — the takes that didn\'t make the highlight reel.',
+  description,
   robots: 'noindex'
 })
+defineOgImage('Terminal.satori', { title: 'Blooper reel', description })
 
 const justUnlocked = computed(() => route.query.unlocked === '1')
 

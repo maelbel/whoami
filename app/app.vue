@@ -24,6 +24,8 @@ useSeoMeta({
   twitterCard: 'summary_large_image'
 })
 
+defineOgImage('Terminal.satori', { title: site.name, description })
+
 const route = useRoute()
 const activeSection = useActiveSection()
 

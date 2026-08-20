@@ -1,10 +1,13 @@
 <script setup lang="ts">
 const { site } = useAppConfig()
 
+const description = 'How my self-hosted projects and home lab are actually deployed — Traefik, Tailscale and OVH-issued certs on one VPS — plus how this very site ships to Vercel.'
+
 useSeoMeta({
   title: `Infrastructure — ${site.name}`,
-  description: 'How my self-hosted projects and home lab are actually deployed — Traefik, Tailscale and OVH-issued certs on one VPS — plus how this very site ships to Vercel.'
+  description
 })
+defineOgImage('Terminal.satori', { title: 'Infrastructure', description })
 
 const infraFlow = [
   {

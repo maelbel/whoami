@@ -5,6 +5,7 @@ const title = `Changelog — ${site.name}`
 const description = 'Every shipped version of this site, generated straight from GitHub Releases by the same CI/CD pipeline that deploys it.'
 
 useSeoMeta({ title, description })
+defineOgImage('Terminal.satori', { title: 'Changelog', description })
 
 const { entries, error } = await useChangelog()
 </script>
