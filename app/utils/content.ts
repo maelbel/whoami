@@ -82,15 +82,13 @@ export const projects: Project[] = [
     name: 'Edusign',
     description: 'Digital attendance management app with electronic signatures, redeveloped from scratch during a master\'s year.',
     tech: ['PHP'],
-    repo: 'https://github.com/maelbel/Edusign',
-    live: 'https://edusign.maelbelliard.dev'
+    repo: 'https://github.com/maelbel/Edusign'
   },
   {
     name: 'COSMOS',
     description: 'Multilingual website about space, built during a DUT MMI internship with Express and MongoDB.',
     tech: ['Node.js', 'Express', 'MongoDB'],
-    repo: 'https://github.com/maelbel/COSMOS',
-    live: 'https://cosmos.maelbelliard.dev'
+    repo: 'https://github.com/maelbel/COSMOS'
   },
   {
     name: 'Blob le Blog',
