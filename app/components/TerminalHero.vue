@@ -32,6 +32,13 @@ function closeSnake() {
   nextTick(focusInput)
 }
 
+const blackholeOpen = ref(false)
+
+function closeBlackhole() {
+  blackholeOpen.value = false
+  nextTick(focusInput)
+}
+
 const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, uses, date, neofetch, snake, sudo hire-me, clear'
 
 const NAV_PATHS: Record<string, string> = { resume: '/resume', infra: '/infra', uses: '/uses' }
@@ -159,6 +166,8 @@ function runCommand(raw: string) {
       output: ['Nice try. This terminal is read-only — and so is your judgment.']
     })
     scrollToBottom()
+    inputEl.value?.blur()
+    blackholeOpen.value = true
     return
   }
 
@@ -260,5 +269,10 @@ function runCommand(raw: string) {
   <SnakeGame
     v-if="snakeOpen"
     @close="closeSnake"
+  />
+
+  <BlackholeOverlay
+    v-if="blackholeOpen"
+    @close="closeBlackhole"
   />
 </template>
