@@ -78,19 +78,6 @@ const portail = {
   tech: ['Nuxt', 'Prisma', 'PostgreSQL']
 }
 
-const homelab = [
-  { name: 'AdGuard Home', description: 'Network-wide DNS ad- and tracker-blocking.', icon: 'i-lucide-shield' },
-  { name: 'Authentik', description: 'Self-hosted SSO / identity provider — its Traefik forward-auth middleware exists, just not wired to any app yet.', icon: 'i-lucide-key-round' },
-  { name: 'Home Assistant', description: 'Home automation hub.', icon: 'i-lucide-house' },
-  { name: 'Zigbee2MQTT + Mosquitto', description: 'Zigbee-to-MQTT bridge for smart home devices.', icon: 'i-lucide-radio-tower' },
-  { name: 'Paperless-ngx', description: 'OCR document archive.', icon: 'i-lucide-archive' },
-  { name: 'Beszel', description: 'Lightweight server monitoring.', icon: 'i-lucide-activity' },
-  { name: 'Affine', description: 'Notes and knowledge base.', icon: 'i-lucide-notebook-pen' },
-  { name: 'Obsidian', description: 'The Obsidian app itself, containerized and accessed through the browser.', icon: 'i-lucide-sticky-note' },
-  { name: 'Uptime Kuma', description: 'Status page and uptime monitoring for everything on the host.', icon: 'i-simple-icons-uptimekuma' },
-  { name: 'Ghostfolio', description: 'Open-source investment portfolio tracker.', icon: 'i-simple-icons-ghostfolio' }
-]
-
 const repoUrl = `https://github.com/${site.github.repo}`
 
 const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
@@ -271,6 +258,16 @@ const { stats: repoStats } = useRepoStats([
           </div>
         </div>
       </div>
+
+      <UButton
+        to="/uses"
+        variant="link"
+        size="sm"
+        trailing-icon="i-lucide-arrow-right"
+        class="mt-4"
+      >
+        See the exact hardware and software behind it
+      </UButton>
     </UPageSection>
 
     <UPageSection

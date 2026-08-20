@@ -58,7 +58,7 @@ const navLinks = computed(() => [
   { label: 'Contact', to: '/#contact', active: activeSection.value === 'contact' },
   {
     label: 'More',
-    active: route.path === '/changelog' || route.path === '/infra',
+    active: route.path === '/changelog' || route.path === '/infra' || route.path === '/uses',
     children: [
       {
         label: 'Changelog',
@@ -73,6 +73,13 @@ const navLinks = computed(() => [
         to: '/infra',
         icon: 'i-lucide-server',
         active: route.path === '/infra'
+      },
+      {
+        label: 'Uses',
+        description: 'The hardware, software, and smart home setup behind it all.',
+        to: '/uses',
+        icon: 'i-lucide-cpu',
+        active: route.path === '/uses'
       }
     ]
   }

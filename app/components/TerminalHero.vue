@@ -25,7 +25,9 @@ function scrollToBottom() {
 
 const { pieces: confetti, launch: launchConfetti } = useConfetti()
 
-const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, date, neofetch, sudo hire-me, clear'
+const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, uses, date, neofetch, sudo hire-me, clear'
+
+const NAV_PATHS: Record<string, string> = { resume: '/resume', infra: '/infra', uses: '/uses' }
 
 const CREPE_RECIPES: Record<'sweet' | 'salt', string[]> = {
   sweet: [
@@ -145,8 +147,8 @@ function runCommand(raw: string) {
     return
   }
 
-  if (normalized === 'resume' || normalized === 'infra') {
-    const path = normalized === 'resume' ? '/resume' : '/infra'
+  if (normalized in NAV_PATHS) {
+    const path = NAV_PATHS[normalized]!
     history.value.push({ command: trimmed, output: [`Opening ${path}…`] })
     scrollToBottom()
     setTimeout(() => navigateTo(path), 400)
