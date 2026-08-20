@@ -67,6 +67,18 @@ networks:
 
 export const projects: Project[] = [
   {
+    name: 'Cats',
+    description: 'Full-stack CRUD app for cataloging cats — JWT auth, role-based admin dashboard, DB seeding.',
+    tech: ['Vue', 'Quasar', 'NestJS', 'TypeORM'],
+    repo: 'https://github.com/maelbel/cats'
+  },
+  {
+    name: 'Culina',
+    description: 'Full-stack meal planner — plan meals, manage ingredients, and generate a shopping list automatically.',
+    tech: ['React', 'NestJS', 'MUI'],
+    repo: 'https://github.com/maelbel/culina-frontend'
+  },
+  {
     name: 'Edusign',
     description: 'Digital attendance management app with electronic signatures, redeveloped from scratch during a master\'s year.',
     tech: ['PHP'],
