@@ -20,6 +20,7 @@
     "@takumi-rs/core": "^2.10.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "dompurify": "^3.4.14",
     "mermaid": "^11.16.1",
     "nuxt": "^4.5.2",
     "nuxt-og-image": "^6.7.8",
