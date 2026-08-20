@@ -27,6 +27,22 @@ useSeoMeta({
 const route = useRoute()
 const activeSection = useActiveSection()
 
+const toast = useToast()
+
+useKonamiCode(() => {
+  toast.add({
+    title: 'Cheat code accepted',
+    description: 'Unlocking the blooper reel…',
+    icon: 'i-lucide-party-popper',
+    color: 'primary'
+  })
+  navigateTo('/blooper-reel?unlocked=1')
+})
+
+if (import.meta.client) {
+  console.log('%cLooking for something? Try the Konami code: ↑ ↑ ↓ ↓ ← → ← → B A', 'font-weight:bold;color:#00C16A')
+}
+
 const { status: ciStatus, error: ciError } = useCiStatus(`https://github.com/${site.github.repo}`)
 
 const navLinks = computed(() => [
