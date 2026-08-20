@@ -25,7 +25,14 @@ function scrollToBottom() {
 
 const { pieces: confetti, launch: launchConfetti } = useConfetti()
 
-const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, uses, date, neofetch, sudo hire-me, clear'
+const snakeOpen = ref(false)
+
+function closeSnake() {
+  snakeOpen.value = false
+  nextTick(focusInput)
+}
+
+const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, uses, date, neofetch, snake, sudo hire-me, clear'
 
 const NAV_PATHS: Record<string, string> = { resume: '/resume', infra: '/infra', uses: '/uses' }
 
@@ -138,6 +145,14 @@ function runCommand(raw: string) {
     return
   }
 
+  if (normalized === 'snake') {
+    history.value.push({ command: trimmed, output: ['Loading game…'] })
+    scrollToBottom()
+    inputEl.value?.blur()
+    snakeOpen.value = true
+    return
+  }
+
   if (normalized === 'sudo rm -rf /') {
     history.value.push({
       command: trimmed,
@@ -240,5 +255,10 @@ function runCommand(raw: string) {
   <ConfettiOverlay
     :pieces="confetti"
     emoji="🥞"
+  />
+
+  <SnakeGame
+    v-if="snakeOpen"
+    @close="closeSnake"
   />
 </template>
