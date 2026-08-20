@@ -48,7 +48,18 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build project artifacts
-        run: vercel build --prod
+        run: |
+          set +e
+          timeout --signal=TERM --kill-after=15s 180s vercel build --prod
+          status=$?
+          set -e
+          # vercel build has been observed to hang after finishing (dangling
+          # esbuild child process) instead of exiting; treat a timeout kill
+          # as success only if the build actually produced its output.
+          if [ "$status" -ne 0 ] && [ "$status" -ne 124 ] && [ "$status" -ne 137 ]; then
+            exit "$status"
+          fi
+          test -f .vercel/output/config.json
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
