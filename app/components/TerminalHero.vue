@@ -39,6 +39,8 @@ function closeBlackhole() {
   nextTick(focusInput)
 }
 
+const { active: matrixModeActive, toggle: toggleMatrixMode } = useMatrixMode()
+
 const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, uses, date, neofetch, snake, sudo hire-me, clear'
 
 const NAV_PATHS: Record<string, string> = { resume: '/resume', infra: '/infra', uses: '/uses' }
@@ -157,6 +159,16 @@ function runCommand(raw: string) {
     scrollToBottom()
     inputEl.value?.blur()
     snakeOpen.value = true
+    return
+  }
+
+  if (normalized === 'matrix') {
+    toggleMatrixMode()
+    history.value.push({
+      command: trimmed,
+      output: [matrixModeActive.value ? 'Wake up…' : 'Back to reality.']
+    })
+    scrollToBottom()
     return
   }
 

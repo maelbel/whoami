@@ -30,6 +30,7 @@ defineOgImage('Terminal.satori', { title: site.name, description })
 
 const route = useRoute()
 const activeSection = useActiveSection()
+const { active: matrixModeActive, toggle: toggleMatrixMode } = useMatrixMode()
 
 const toast = useToast()
 
@@ -171,5 +172,10 @@ const headerSocialLinks = socialLinks.filter(link => link.label !== 'Email')
         </UTooltip>
       </template>
     </UFooter>
+
+    <MatrixRain
+      v-if="matrixModeActive"
+      @close="toggleMatrixMode"
+    />
   </UApp>
 </template>
