@@ -39,6 +39,13 @@ function closeBlackhole() {
   nextTick(focusInput)
 }
 
+const forkBombOpen = ref(false)
+
+function closeForkBomb() {
+  forkBombOpen.value = false
+  nextTick(focusInput)
+}
+
 const { active: matrixModeActive, toggle: toggleMatrixMode } = useMatrixMode()
 
 const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, uses, date, neofetch, snake, sudo hire-me, clear'
@@ -183,6 +190,42 @@ function runCommand(raw: string) {
     return
   }
 
+  if (normalized === ':(){ :|:& };:') {
+    const index = history.value.length
+    history.value.push({ command: trimmed, output: [] })
+    scrollToBottom()
+    inputEl.value?.blur()
+
+    const FLOOD_LINES: Array<{ text: string, at: number }> = [
+      { text: 'fork: retry: Resource temporarily unavailable', at: 220 },
+      { text: 'fork: retry: Resource temporarily unavailable', at: 480 },
+      { text: 'bash: fork: Cannot allocate memory', at: 680 },
+      { text: 'fork: retry: Resource temporarily unavailable', at: 840 },
+      { text: '-- process table full --', at: 960 },
+      { text: 'bash: fork: Cannot allocate memory', at: 1050 },
+      { text: '-- process table full --', at: 1120 },
+      { text: '-- process table full --', at: 1180 }
+    ]
+
+    FLOOD_LINES.forEach(({ text, at }) => {
+      setTimeout(() => {
+        history.value[index]?.output.push(text)
+        scrollToBottom()
+      }, at)
+    })
+
+    setTimeout(() => {
+      history.value[index]?.output.push('Kernel panic — not syncing: Out of memory and no killable processes...')
+      scrollToBottom()
+    }, 1450)
+
+    setTimeout(() => {
+      forkBombOpen.value = true
+    }, 2100)
+
+    return
+  }
+
   if (normalized in NAV_PATHS) {
     const path = NAV_PATHS[normalized]!
     history.value.push({ command: trimmed, output: [`Opening ${path}…`] })
@@ -286,5 +329,10 @@ function runCommand(raw: string) {
   <BlackholeOverlay
     v-if="blackholeOpen"
     @close="closeBlackhole"
+  />
+
+  <ForkBombOverlay
+    v-if="forkBombOpen"
+    @close="closeForkBomb"
   />
 </template>
