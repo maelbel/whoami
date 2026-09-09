@@ -23,7 +23,7 @@ export interface ToolItem {
   icon: string
 }
 
-export const featuredProject: FeaturedProject = {
+export const featuredProjects: FeaturedProject[] = [{
   name: 'Croesus',
   description: 'Open-source net worth tracker — self-hosted or as a desktop app for Windows/macOS/Linux — with real support for French tax-advantaged accounts (PEA, assurance-vie), real estate, and debts.',
   tech: ['Vue', 'Nuxt UI', 'FastAPI', 'PostgreSQL', 'Docker', 'Tauri'],
@@ -69,9 +69,50 @@ networks:
     external: true
   internal:
     driver: bridge`
-}
+}, {
+  name: 'Skillspector Web',
+  description: 'Web UI for NVIDIA/skillspector — paste a skill\'s repo/zip/file URL and get a risk score and finding list back, without touching the CLI.',
+  tech: ['Nuxt', 'Nuxt UI', 'FastAPI', 'LangGraph', 'Docker'],
+  repo: 'https://github.com/maelbel/skillspector-web',
+  license: 'MIT',
+  compose: `services:
+  api:
+    build:
+      context: ./backend
+      target: development
+    restart: unless-stopped
+    env_file:
+      - path: ./backend/.env.local
+        required: false
+    networks:
+      - internal
+
+  web:
+    build:
+      context: .
+      target: development
+    restart: unless-stopped
+    environment:
+      NUXT_API_BASE: http://api:8000
+    ports:
+      - "3005:3000"
+    depends_on:
+      - api
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge`
+}]
 
 export const projects: Project[] = [
+  {
+    name: 'Portal',
+    description: 'Personal homelab dashboard — lists self-hosted services with search and tag filtering.',
+    tech: ['Vue', 'Nuxt UI', 'Docker', 'Traefik'],
+    repo: 'https://github.com/maelbel/portal'
+  },
   {
     name: 'Cats',
     description: 'Full-stack CRUD app for cataloging cats — JWT auth, role-based admin dashboard, DB seeding.',
