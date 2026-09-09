@@ -78,6 +78,8 @@ const portail = {
   tech: ['Nuxt', 'Prisma', 'PostgreSQL']
 }
 
+const featuredProject = featuredProjects[0]
+
 const repoUrl = `https://github.com/${site.github.repo}`
 
 const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)

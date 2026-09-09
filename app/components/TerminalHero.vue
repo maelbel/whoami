@@ -103,7 +103,7 @@ const COMMANDS: Record<string, () => string[]> = {
   date: () => [new Date().toString()],
   skills: () => [skills.flatMap(group => group.items.map(item => item.label)).join(', ')],
   experience: () => experience.map(entry => `${entry.date} — ${entry.title}`),
-  projects: () => [featuredProject.name, ...projects.map(project => project.name)],
+  projects: () => [...featuredProjects.map(fp => fp.name), ...projects.map(project => project.name)],
   pipeline: () => [pipeline.map(step => step.title).join(' → ')],
   contact: () => [site.email, `github.com/${site.github.username}`, site.linkedin.replace('https://', '')],
   neofetch: () => [

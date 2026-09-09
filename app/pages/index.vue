@@ -15,9 +15,12 @@ const contactLinks: ButtonProps[] = [
   { label: 'LinkedIn', to: site.linkedin, target: '_blank', icon: 'i-simple-icons-linkedin', size: 'lg', color: 'neutral', variant: 'outline' }
 ]
 
-const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
+const ciEntries = featuredProjects.map(fp => [fp.name, useCiStatus(fp.repo)] as const)
+const ciStatuses = computed(() => Object.fromEntries(
+  ciEntries.map(([name, { status, error }]) => [name, { status: status.value, error: error.value }])
+))
 
-const { stats: repoStats } = useRepoStats([featuredProject, ...projects].map(project => ({ key: project.name, repo: project.repo })))
+const { stats: repoStats } = useRepoStats([...featuredProjects, ...projects].map(project => ({ key: project.name, repo: project.repo })))
 
 useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
 </script>
@@ -94,14 +97,17 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
       id="projects"
       title="Projects"
       description="A flagship project I actively maintain, plus a few things built along the way."
+      :ui="{ container: 'gap-4 sm:gap-8' }"
     >
       <UPageCard
+        v-for="featuredProject in featuredProjects"
+        :key="featuredProject.name"
         :description="featuredProject.description"
         orientation="horizontal"
         :to="featuredProject.repo"
         target="_blank"
         highlight
-        class="mb-6"
+        class="mb-1 last:mb-6"
         :ui="{ container: 'lg:grid-cols-1', footer: 'w-full' }"
       >
         <template #header>
@@ -109,20 +115,20 @@ useScrollSpy(['skills', 'experience', 'projects', 'pipeline', 'contact'])
             <span class="text-base font-semibold text-highlighted">{{ featuredProject.name }}</span>
             <div class="flex flex-wrap items-center gap-2">
               <UBadge
-                v-if="ciStatus"
-                :color="ciStatus.color"
+                v-if="ciStatuses[featuredProject.name]?.status"
+                :color="ciStatuses[featuredProject.name]!.status!.color"
                 variant="subtle"
-                :icon="ciStatus.icon"
+                :icon="ciStatuses[featuredProject.name]!.status!.icon"
               >
-                {{ ciStatus.label }}
+                {{ ciStatuses[featuredProject.name]!.status!.label }}
               </UBadge>
               <UBadge
                 v-else
                 color="neutral"
                 variant="subtle"
-                :icon="ciError ? 'i-lucide-circle-help' : 'i-lucide-loader-circle'"
+                :icon="ciStatuses[featuredProject.name]?.error ? 'i-lucide-circle-help' : 'i-lucide-loader-circle'"
               >
-                {{ ciError ? 'CI status unavailable' : 'Checking CI…' }}
+                {{ ciStatuses[featuredProject.name]?.error ? 'CI status unavailable' : 'Checking CI…' }}
               </UBadge>
               <UBadge
                 color="neutral"
