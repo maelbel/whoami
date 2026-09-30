@@ -9,48 +9,45 @@ withDefaults(defineProps<{
 
 <template>
   <div
-    class="w-full h-full flex flex-col justify-between bg-black p-16"
-    style="font-family: 'JetBrains Mono', monospace"
+    class="w-full h-full flex flex-col justify-between p-16"
+    style="font-family: 'JetBrains Mono', monospace; background-color: #11110F; color: #ECE9E1"
   >
-    <div class="flex items-center gap-3">
-      <div
-        class="w-5 h-5 rounded-full"
-        style="background-color: #ef4444b3"
-      />
-      <div
-        class="w-5 h-5 rounded-full"
-        style="background-color: #eab308b3"
-      />
-      <div
-        class="w-5 h-5 rounded-full"
-        style="background-color: #22c55eb3"
-      />
+    <div
+      class="flex items-center justify-between text-2xl"
+      style="color: #948F83"
+    >
+      <div class="flex items-center gap-4">
+        <div
+          class="flex w-6 h-6"
+          style="background-color: #EB5517"
+        />
+        <span class="flex">mael.belliard</span>
+      </div>
+      <span class="flex">~/whoami</span>
     </div>
 
-    <div class="flex flex-col gap-6">
-      <div class="flex items-center gap-3 text-3xl text-green-400">
-        <span class="flex">$</span>
-        <span class="flex">whoami</span>
-      </div>
-      <div class="flex text-7xl font-bold text-white leading-tight">
+    <div class="flex flex-col gap-8">
+      <div
+        class="flex text-8xl font-bold leading-none"
+        style="color: #F4F1E8; text-transform: uppercase; letter-spacing: -2px"
+      >
         {{ title }}
       </div>
       <div
         v-if="description"
-        class="flex text-3xl text-neutral-400 max-w-4xl leading-snug"
+        class="flex text-3xl max-w-5xl leading-snug"
+        style="color: #948F83"
       >
         {{ description }}
       </div>
     </div>
 
-    <div class="flex items-center justify-between text-2xl text-neutral-500">
-      <div class="flex items-center gap-3">
-        <span class="flex text-green-400">●</span>
-        <span class="flex">maelbelliard.fr</span>
-      </div>
-      <div class="flex">
-        Mael Belliard — Fullstack Developer
-      </div>
+    <div
+      class="flex items-center justify-between text-2xl pt-8"
+      style="color: #615D54; border-top: 2px solid #2D2C28"
+    >
+      <span class="flex">maelbelliard.fr</span>
+      <span class="flex">fullstack developer · lyon, fr</span>
     </div>
   </div>
 </template>

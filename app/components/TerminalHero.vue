@@ -48,9 +48,9 @@ function closeForkBomb() {
 
 const { active: matrixModeActive, toggle: toggleMatrixMode } = useMatrixMode()
 
-const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, uses, date, neofetch, snake, sudo hire-me, clear'
+const COMMAND_LIST = 'whoami, ls, skills, experience, projects, pipeline, contact, resume, infra, uses, pi5, changelog, date, neofetch, snake, sudo hire-me, clear'
 
-const NAV_PATHS: Record<string, string> = { resume: '/resume', infra: '/infra', uses: '/uses' }
+const NAV_PATHS: Record<string, string> = { resume: '/resume', infra: '/infra', uses: '/uses', pi5: '/pi5', changelog: '/changelog' }
 
 const CREPE_RECIPES: Record<'sweet' | 'salt', string[]> = {
   sweet: [
@@ -244,32 +244,32 @@ function runCommand(raw: string) {
 </script>
 
 <template>
-  <UCard
-    variant="subtle"
-    class="font-mono text-sm cursor-text"
+  <div
+    class="flex cursor-text flex-col border border-black/40 bg-tty-bg font-mono text-[13px] leading-relaxed text-tty-text shadow-[6px_6px_0_0_var(--ui-border)] dark:border-white/10"
     @click="focusInput"
   >
-    <div class="flex items-center gap-1.5 mb-3">
-      <span class="size-2.5 rounded-full bg-red-500/70" />
-      <span class="size-2.5 rounded-full bg-yellow-500/70" />
-      <span class="size-2.5 rounded-full bg-green-500/70" />
+    <div class="flex items-center justify-between border-b border-white/8 px-4 py-2 text-[11px] text-tty-dim">
+      <span>visitor@maelbelliard: ~</span>
+      <span>tty1</span>
     </div>
 
     <div
       ref="scrollArea"
-      class="max-h-72 overflow-y-auto"
+      class="h-72 overflow-y-auto px-4 pt-3 [scrollbar-color:var(--color-tty-dim)_transparent]"
     >
-      <p><span class="text-primary">$</span> whoami</p>
-      <p class="text-muted mb-2">
+      <p><span class="text-orange-400">$</span> whoami</p>
+      <p class="mb-2 text-tty-muted">
         mael-belliard — fullstack-developer
       </p>
-      <p><span class="text-primary">$</span> curl -s api.github.com/users/{{ site.github.username }}/events | jq '.[0]'</p>
-      <p class="text-muted mb-2">
+      <p class="break-all">
+        <span class="text-orange-400">$</span> curl -s api.github.com/users/{{ site.github.username }}/events | jq '.[0]'
+      </p>
+      <p class="mb-2 text-tty-muted">
         <NuxtLink
           v-if="nowStatus"
           :to="nowStatus.url"
           target="_blank"
-          class="hover:text-primary transition-colors"
+          class="transition-colors hover:text-orange-400"
         >
           "{{ nowStatus.message }}" → {{ nowStatus.repo }} · {{ nowStatus.time }}
         </NuxtLink>
@@ -277,44 +277,49 @@ function runCommand(raw: string) {
           based in Lyon · working @ LM Control
         </template>
       </p>
-      <p><span class="text-primary">$</span> ./deploy.sh --env production</p>
-      <p class="text-muted mb-2">
-        <UIcon
-          name="i-lucide-check"
-          class="text-primary align-[-2px]"
-        /> shipped.
+      <p><span class="text-orange-400">$</span> ./deploy.sh --env production</p>
+      <p class="mb-2 text-tty-muted">
+        <span class="text-led-ok">✓</span> shipped.
       </p>
 
       <template
         v-for="(entry, index) in history"
         :key="index"
       >
-        <p><span class="text-primary">$</span> {{ entry.command }}</p>
+        <p class="break-all">
+          <span class="text-orange-400">$</span> {{ entry.command }}
+        </p>
         <p
           v-for="(line, lineIndex) in entry.output"
           :key="lineIndex"
-          class="text-muted"
+          class="whitespace-pre-wrap text-tty-muted"
         >
           {{ line }}
         </p>
       </template>
+
+      <div class="flex items-center gap-2 pb-3">
+        <span class="text-orange-400">$</span>
+        <input
+          ref="inputEl"
+          v-model="input"
+          type="text"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="type help"
+          aria-label="Terminal input"
+          class="flex-1 bg-transparent text-tty-text caret-orange-400 outline-none placeholder:text-tty-dim"
+          @keydown.enter="runCommand(input)"
+        >
+      </div>
     </div>
 
-    <div class="flex items-center gap-1.5 mt-2">
-      <span class="text-primary">$</span>
-      <input
-        ref="inputEl"
-        v-model="input"
-        type="text"
-        autocomplete="off"
-        autocapitalize="off"
-        spellcheck="false"
-        placeholder="type help"
-        class="flex-1 bg-transparent outline-none text-default placeholder:text-dimmed"
-        @keydown.enter="runCommand(input)"
-      >
+    <div class="flex items-center justify-between bg-orange-500 px-3 py-0.5 text-[11px] text-black">
+      <span>[whoami] 0:sh*</span>
+      <span>"{{ site.github.username }}" <LiveClock :seconds="false" /></span>
     </div>
-  </UCard>
+  </div>
 
   <ConfettiOverlay
     :pieces="confetti"

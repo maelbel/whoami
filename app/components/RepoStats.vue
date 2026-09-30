@@ -7,33 +7,12 @@ defineProps<{
 </script>
 
 <template>
-  <div
+  <span
     v-if="stats"
-    class="flex flex-wrap items-center gap-1.5"
+    class="inline-flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-muted"
   >
-    <UBadge
-      color="neutral"
-      variant="subtle"
-      size="sm"
-      icon="i-lucide-star"
-    >
-      {{ stats.stars }}
-    </UBadge>
-    <UBadge
-      color="neutral"
-      variant="subtle"
-      size="sm"
-      icon="i-lucide-circle-dot"
-    >
-      {{ stats.openIssues }}
-    </UBadge>
-    <UBadge
-      color="neutral"
-      variant="subtle"
-      size="sm"
-      icon="i-lucide-git-commit-horizontal"
-    >
-      {{ stats.lastCommit }}
-    </UBadge>
-  </div>
+    <span title="Stars">★ {{ stats.stars }}</span>
+    <span title="Open issues">◌ {{ stats.openIssues }}</span>
+    <span title="Last push">↑ {{ stats.lastCommit }}</span>
+  </span>
 </template>

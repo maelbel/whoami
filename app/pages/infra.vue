@@ -82,7 +82,6 @@ const featuredProject = featuredProjects[0]!
 
 const repoUrl = `https://github.com/${site.github.repo}`
 
-const { status: ciStatus, error: ciError } = useCiStatus(featuredProject.repo)
 const { status: shipStatus, error: shipError } = useCiStatus(repoUrl, 'release.yml')
 
 const { stats: repoStats } = useRepoStats([
@@ -93,244 +92,190 @@ const { stats: repoStats } = useRepoStats([
 
 <template>
   <div>
-    <UPageHero
-      headline="Self-hosted (mostly)"
+    <PageIntro
+      path="~/infra"
       title="How it's actually hosted"
-      description="One VPS, one Traefik instance, reachable only from the home network or Tailscale, with real certs from OVH's DNS API — no PaaS, no managed Kubernetes. This very site is the exception: it ships straight to Vercel. Here's the real path a request takes, plus live status for what's running."
+      description="One VPS, one Traefik instance, reachable only from the home network or Tailscale, with real certs from OVH's DNS API — no PaaS, no managed Kubernetes. This very site is the exception: it ships straight to Vercel."
     />
 
-    <UPageSection
-      title="The stack behind all of it"
+    <ModuleSection
+      index="01"
+      topic="infra/layers"
+      title="The stack"
       description="Every self-hosted project and home lab app on this page shares the same five pieces."
     >
-      <MermaidDiagram
-        :code="overviewDiagram"
-        class="mb-8"
-      />
+      <div class="border border-default bg-elevated p-4 sm:p-8">
+        <MermaidDiagram :code="overviewDiagram" />
+      </div>
 
-      <UTimeline
-        :items="infraFlow"
-        :default-value="infraFlow.length - 1"
-        size="lg"
-      />
+      <ol class="mt-12">
+        <li
+          v-for="(layer, index) in infraFlow"
+          :key="layer.title"
+          class="grid grid-cols-[3rem_1fr] gap-x-4 border-b border-default py-6 first:border-t first:border-accented sm:grid-cols-[4rem_12rem_1fr] sm:gap-x-8"
+        >
+          <span class="font-mono text-xs text-dimmed">L{{ infraFlow.length - index }}</span>
+          <span class="flex items-center gap-2 font-medium text-highlighted">
+            <UIcon
+              :name="layer.icon"
+              class="size-4 text-muted"
+            />
+            {{ layer.title }}
+          </span>
+          <p class="col-start-2 mt-2 text-sm text-muted text-pretty sm:col-start-auto sm:mt-0">
+            {{ layer.description }}
+          </p>
+        </li>
+      </ol>
 
-      <h3 class="text-lg font-semibold text-highlighted mt-10 mb-4">
-        Anatomy of a request
+      <h3 class="label mt-16 mb-4 text-highlighted">
+        anatomy of a request
       </h3>
-      <MermaidDiagram :code="requestSequence" />
-    </UPageSection>
+      <div class="border border-default bg-elevated p-4 sm:p-8">
+        <MermaidDiagram :code="requestSequence" />
+      </div>
+    </ModuleSection>
 
-    <UPageSection
+    <ModuleSection
       id="services"
+      index="02"
+      topic="infra/services"
       title="My own projects"
       description="Everything in /services, routed through that same stack — restricted to me, not a public demo. Status pulled live from GitHub where a repo exists."
     >
-      <UPageCard
-        :description="featuredProject.description"
-        highlight
-        :ui="{ footer: 'w-full' }"
-      >
-        <template #header>
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <span class="text-base font-semibold text-highlighted">{{ featuredProject.name }}</span>
-            <div class="flex flex-wrap items-center gap-2">
-              <UBadge
-                color="neutral"
-                variant="subtle"
-                icon="i-lucide-lock"
-                size="sm"
-              >
-                Restricted access
-              </UBadge>
-              <CiStatusBadge
-                :status="ciStatus"
-                :error="ciError"
-                label="CI"
-              />
-              <RepoStats :stats="repoStats?.[featuredProject.name]" />
-              <UButton
-                :to="featuredProject.repo"
-                target="_blank"
-                variant="link"
-                size="sm"
-                icon="i-simple-icons-github"
-                trailing-icon="i-lucide-external-link"
-                @click.stop
-              >
-                Source
-              </UButton>
-            </div>
+      <ProjectSpec
+        :project="featuredProject"
+        :index="0"
+        :total="3"
+        tag="restricted access"
+        :stats="repoStats?.[featuredProject.name]"
+      />
+
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <article class="border border-default bg-elevated">
+          <header class="flex items-center justify-between border-b border-default px-5 py-2.5">
+            <span class="label text-dimmed">private · 02/03</span>
+            <span class="label text-dimmed">no public repo</span>
+          </header>
+          <div class="p-5 sm:p-8">
+            <h3 class="display text-4xl text-highlighted">
+              {{ portail.name }}
+            </h3>
+            <p class="mt-3 text-sm text-muted text-pretty">
+              {{ portail.description }}
+            </p>
+            <p class="mt-4 font-mono text-xs text-muted">
+              {{ portail.tech.join(' · ') }}
+            </p>
           </div>
-        </template>
+        </article>
 
-        <template #footer>
-          <div class="flex flex-col gap-2 w-full">
-            <div class="flex flex-wrap gap-1.5">
-              <UBadge
-                v-for="tech in featuredProject.tech"
-                :key="tech"
-                color="neutral"
-                variant="subtle"
-                size="sm"
-              >
-                {{ tech }}
-              </UBadge>
-            </div>
-            <ComposePeek
-              v-if="featuredProject.compose"
-              :compose="featuredProject.compose"
-            />
-          </div>
-        </template>
-      </UPageCard>
-
-      <div class="grid gap-4 sm:grid-cols-2 mt-4">
-        <UPageCard
-          :description="portail.description"
-          :ui="{ footer: 'w-full' }"
-        >
-          <template #header>
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <span class="text-base font-semibold text-highlighted">{{ portail.name }}</span>
-              <UBadge
-                color="neutral"
-                variant="subtle"
-                icon="i-lucide-lock"
-                size="sm"
-              >
-                Private, no public repo
-              </UBadge>
-            </div>
-          </template>
-
-          <template #footer>
-            <div class="flex flex-wrap gap-1.5">
-              <UBadge
-                v-for="tech in portail.tech"
-                :key="tech"
-                color="neutral"
-                variant="subtle"
-                size="sm"
-              >
-                {{ tech }}
-              </UBadge>
-            </div>
-          </template>
-        </UPageCard>
-
-        <UPageCard
-          title="Whoami"
-          description="This site's own dev container lives here too, at whoami.maelbelliard.fr — a hot-reloading preview behind the same Traefik + Tailscale gate. Not the page you're reading right now."
-        >
-          <template #footer>
-            <UButton
+        <article class="border border-default bg-elevated">
+          <header class="flex items-center justify-between border-b border-default px-5 py-2.5">
+            <span class="label text-dimmed">dev copy · 03/03</span>
+            <span class="label text-dimmed">whoami.maelbelliard.fr</span>
+          </header>
+          <div class="p-5 sm:p-8">
+            <h3 class="display text-4xl text-highlighted">
+              Whoami
+            </h3>
+            <p class="mt-3 text-sm text-muted text-pretty">
+              This site's own dev container lives here too — a hot-reloading preview behind the same Traefik + Tailscale gate. Not the page you're reading right now.
+            </p>
+            <NuxtLink
               to="#deploy"
-              variant="link"
-              size="sm"
-              trailing-icon="i-lucide-arrow-down"
+              class="mt-4 inline-block font-mono text-xs text-highlighted hover:text-primary"
             >
-              See how this site ships
-            </UButton>
-          </template>
-        </UPageCard>
+              ↓ how this site ships
+            </NuxtLink>
+          </div>
+        </article>
       </div>
-    </UPageSection>
+    </ModuleSection>
 
-    <UPageSection
+    <ModuleSection
+      index="03"
+      topic="infra/homelab"
       title="Home lab"
       description="The rest of what runs on that same host, for personal use — everything in /docker, on the same Traefik + Tailscale + OVH setup."
     >
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="tool in homelab"
-          :key="tool.name"
-          class="flex items-start gap-3 rounded-lg border border-default p-4"
+      <InventoryTable
+        :items="homelab"
+        prefix="SVC"
+      />
+
+      <div class="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-mono text-sm">
+        <NuxtLink
+          to="/uses"
+          class="text-highlighted underline decoration-(--ui-border-accented) underline-offset-4 hover:text-primary hover:decoration-current"
         >
-          <UIcon
-            :name="tool.icon"
-            class="size-5 shrink-0 text-primary mt-0.5"
-          />
-          <div>
-            <p class="text-sm font-semibold text-highlighted">
-              {{ tool.name }}
-            </p>
-            <p class="text-sm text-muted">
-              {{ tool.description }}
-            </p>
-          </div>
-        </div>
+          /uses — the exact hardware and software →
+        </NuxtLink>
+        <NuxtLink
+          to="/pi5"
+          class="text-highlighted underline decoration-(--ui-border-accented) underline-offset-4 hover:text-primary hover:decoration-current"
+        >
+          /pi5 — the box, in 3D →
+        </NuxtLink>
       </div>
+    </ModuleSection>
 
-      <UButton
-        to="/uses"
-        variant="link"
-        size="sm"
-        trailing-icon="i-lucide-arrow-right"
-        class="mt-4"
-      >
-        See the exact hardware and software behind it
-      </UButton>
-    </UPageSection>
-
-    <UPageSection
+    <ModuleSection
       id="deploy"
+      index="04"
+      topic="infra/deploy"
       title="How this site ships"
       description="This is the one exception to everything above — it doesn't stay on the VPS."
     >
-      <MermaidDiagram
-        :code="shipDiagram"
-        class="mb-8"
-      />
-
-      <div class="grid gap-4 sm:grid-cols-2">
-        <UPageCard description="A docker-compose service, source mounted as a volume for hot reload, routed by the same home Traefik instance as everything else — reachable only over Tailscale, at whoami.maelbelliard.fr. It's a live preview of work in progress, not the public site.">
-          <template #header>
-            <div class="flex items-center gap-2">
-              <UIcon
-                name="i-simple-icons-docker"
-                class="size-5 shrink-0 text-primary"
-              />
-              <span class="text-base font-semibold text-highlighted">Local / dev</span>
-            </div>
-          </template>
-        </UPageCard>
-        <UPageCard>
-          <template #header>
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <UIcon
-                  name="i-simple-icons-vercel"
-                  class="size-5 shrink-0 text-primary"
-                />
-                <span class="text-base font-semibold text-highlighted">Production</span>
-              </div>
-              <div class="flex flex-wrap items-center gap-2">
-                <CiStatusBadge
-                  :status="shipStatus"
-                  :error="shipError"
-                />
-                <RepoStats :stats="repoStats?.[site.name]" />
-              </div>
-            </div>
-          </template>
-          <template #description>
-            Pushing a tag like <code class="text-xs">v1.0.0</code> triggers GitHub Actions:
-            lint, typecheck, <code class="text-xs">vercel build --prod</code>, deploy, then a
-            GitHub Release with a changelog generated from Conventional Commits. That's what's
-            actually live at <strong>www.maelbelliard.fr</strong>.
-          </template>
-          <template #footer>
-            <UButton
-              to="/changelog"
-              variant="link"
-              size="sm"
-              trailing-icon="i-lucide-arrow-right"
-            >
-              See every shipped release
-            </UButton>
-          </template>
-        </UPageCard>
+      <div class="border border-default bg-elevated p-4 sm:p-8">
+        <MermaidDiagram :code="shipDiagram" />
       </div>
-    </UPageSection>
+
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <article class="border border-default p-5 sm:p-8">
+          <p class="label flex items-center gap-2 text-dimmed">
+            <UIcon
+              name="i-simple-icons-docker"
+              class="size-3.5"
+            />
+            local / dev
+          </p>
+          <p class="mt-4 text-sm text-muted text-pretty">
+            A docker-compose service, source mounted as a volume for hot reload, routed by the same home Traefik instance as everything else — reachable only over Tailscale, at whoami.maelbelliard.fr. It's a live preview of work in progress, not the public site.
+          </p>
+        </article>
+        <article class="border border-default p-5 sm:p-8">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <p class="label flex items-center gap-2 text-dimmed">
+              <UIcon
+                name="i-simple-icons-vercel"
+                class="size-3.5"
+              />
+              production
+            </p>
+            <CiStatusBadge
+              :status="shipStatus"
+              :error="shipError"
+              label="release"
+            />
+          </div>
+          <p class="mt-4 text-sm text-muted text-pretty">
+            Pushing a tag like <code class="font-mono text-xs text-toned">v1.0.0</code> triggers GitHub Actions:
+            lint, typecheck, <code class="font-mono text-xs text-toned">vercel build --prod</code>, deploy, then a
+            GitHub Release with a changelog generated from Conventional Commits. That's what's
+            actually live at <strong class="text-highlighted">www.maelbelliard.fr</strong>.
+          </p>
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <RepoStats :stats="repoStats?.[site.name]" />
+            <NuxtLink
+              to="/changelog"
+              class="font-mono text-xs text-highlighted hover:text-primary"
+            >
+              /changelog →
+            </NuxtLink>
+          </div>
+        </article>
+      </div>
+    </ModuleSection>
   </div>
 </template>

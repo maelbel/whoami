@@ -72,54 +72,43 @@ const takes = [
 
 <template>
   <div>
-    <UPageHero
-      headline="You found it"
+    <PageIntro
+      path="~/blooper-reel"
       title="The blooper reel"
       description="Every portfolio shows the highlight reel. Here's what actually happened while shipping this one — real logs, real timestamps, nothing staged."
-    />
-
-    <UPageSection>
-      <UAlert
+    >
+      <p
         v-if="justUnlocked"
-        icon="i-lucide-party-popper"
-        color="primary"
-        variant="subtle"
-        title="Cheat code accepted"
-        description="↑ ↑ ↓ ↓ ← → ← → B A — you remembered. Enjoy the outtakes."
-        class="mb-8"
-      />
-
-      <div class="flex flex-col gap-4">
-        <UPageCard
-          v-for="entry in takes"
-          :key="entry.title"
-        >
-          <template #header>
-            <div class="flex items-center gap-2">
-              <UBadge
-                color="neutral"
-                variant="subtle"
-                size="sm"
-              >
-                {{ entry.take }}
-              </UBadge>
-              <span class="text-base font-semibold text-highlighted">{{ entry.title }}</span>
-            </div>
-          </template>
-          <pre class="font-mono text-sm text-muted whitespace-pre-wrap">{{ entry.log.join('\n') }}</pre>
-        </UPageCard>
-      </div>
-
-      <UButton
-        to="/"
-        variant="ghost"
-        color="neutral"
-        icon="i-lucide-arrow-left"
-        class="mt-8"
+        class="mt-8 inline-flex items-center gap-2 border border-primary px-3 py-2 font-mono text-xs text-primary"
       >
-        Back to the highlight reel
-      </UButton>
-    </UPageSection>
+        ↑ ↑ ↓ ↓ ← → ← → B A — cheat code accepted. Enjoy the outtakes.
+      </p>
+    </PageIntro>
+
+    <section class="container-site flex flex-col gap-8 py-16 sm:py-24">
+      <article
+        v-for="entry in takes"
+        :key="entry.title"
+        class="grid gap-x-12 gap-y-3 lg:grid-cols-[11rem_1fr]"
+      >
+        <p class="label pt-1 text-primary">
+          {{ entry.take }}
+        </p>
+        <div>
+          <h2 class="font-medium text-highlighted">
+            {{ entry.title }}
+          </h2>
+          <pre class="mt-3 overflow-x-auto border border-black/40 bg-tty-bg p-4 font-mono text-xs leading-relaxed whitespace-pre-wrap text-tty-muted dark:border-white/10">{{ entry.log.join('\n') }}</pre>
+        </div>
+      </article>
+
+      <NuxtLink
+        to="/"
+        class="font-mono text-sm text-muted hover:text-highlighted lg:pl-[13rem]"
+      >
+        ← back to the highlight reel
+      </NuxtLink>
+    </section>
 
     <ConfettiOverlay
       :pieces="confetti"
