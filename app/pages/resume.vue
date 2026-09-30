@@ -14,24 +14,23 @@ onMounted(printResume)
 
 <template>
   <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-    <div class="print:hidden flex items-center justify-between gap-2 mb-8">
-      <UButton
+    <div class="mb-8 flex items-center justify-between gap-2 font-mono text-sm print:hidden">
+      <NuxtLink
         to="/"
-        icon="i-lucide-arrow-left"
-        variant="ghost"
-        color="neutral"
+        class="text-muted hover:text-highlighted"
       >
-        Back to site
-      </UButton>
-      <UButton
-        icon="i-lucide-printer"
+        ← cd ~
+      </NuxtLink>
+      <button
+        type="button"
+        class="cursor-pointer bg-inverted px-4 py-2 text-inverted transition-colors hover:bg-primary hover:text-white"
         @click="printResume"
       >
-        Print / Save as PDF
-      </UButton>
+        print / save as pdf
+      </button>
     </div>
 
-    <div class="bg-white text-black rounded-lg p-8 sm:p-12 print:p-0 print:rounded-none">
+    <div class="bg-white p-8 text-black shadow-[6px_6px_0_0_var(--ui-border)] sm:p-12 print:p-0 print:shadow-none">
       <header class="mb-6 border-b border-gray-300 pb-6">
         <h1 class="text-3xl font-bold">
           {{ site.name }}
@@ -81,7 +80,15 @@ onMounted(printResume)
             </h3>
             <span class="text-xs text-gray-500">{{ entry.date }}</span>
           </div>
-          <p class="text-sm text-gray-700">
+          <p class="text-xs text-gray-600">
+            {{ entry.org }}<template v-if="entry.meta">
+              · {{ entry.meta }}
+            </template>
+          </p>
+          <p
+            v-if="entry.description"
+            class="text-sm text-gray-700"
+          >
             {{ entry.description }}
           </p>
         </div>
@@ -102,7 +109,15 @@ onMounted(printResume)
             </h3>
             <span class="text-xs text-gray-500">{{ entry.date }}</span>
           </div>
-          <p class="text-sm text-gray-700">
+          <p class="text-xs text-gray-600">
+            {{ entry.org }}<template v-if="entry.meta">
+              · {{ entry.meta }}
+            </template>
+          </p>
+          <p
+            v-if="entry.description"
+            class="text-sm text-gray-700"
+          >
             {{ entry.description }}
           </p>
         </div>

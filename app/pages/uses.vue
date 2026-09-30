@@ -12,124 +12,72 @@ defineOgImage('Terminal.satori', { title: 'Uses', description })
 
 <template>
   <div>
-    <UPageHero
-      headline="Real hardware, real software"
+    <PageIntro
+      path="~/uses"
       title="What I actually run this on"
       description="Not a wishlist — this is the real hardware and software behind the home server on /infra, plus the smart home devices it talks to."
-    />
+    >
+      <NuxtLink
+        to="/pi5"
+        class="mt-8 inline-flex items-center gap-2 bg-inverted px-4 py-2.5 font-mono text-sm text-inverted transition-colors hover:bg-primary hover:text-white"
+      >
+        take the Pi apart in 3D →
+      </NuxtLink>
+    </PageIntro>
 
-    <UPageSection
+    <ModuleSection
+      index="01"
+      topic="uses/hardware"
       title="The home server"
       description="One Raspberry Pi 5, doing all of it."
     >
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="tool in hardware"
-          :key="tool.name"
-          class="flex items-start gap-3 rounded-lg border border-default p-4"
-        >
-          <UIcon
-            :name="tool.icon"
-            class="size-5 shrink-0 text-primary mt-0.5"
-          />
-          <div>
-            <p class="text-sm font-semibold text-highlighted">
-              {{ tool.name }}
-            </p>
-            <p class="text-sm text-muted">
-              {{ tool.description }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </UPageSection>
+      <InventoryTable
+        :items="hardware"
+        prefix="HW"
+      />
+    </ModuleSection>
 
-    <UPageSection
+    <ModuleSection
+      index="02"
+      topic="uses/software"
       title="Day to day"
       description="OS, editor, terminal, browser, and how it's all reached from outside the home network."
     >
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="tool in software"
-          :key="tool.name"
-          class="flex items-start gap-3 rounded-lg border border-default p-4"
-        >
-          <UIcon
-            :name="tool.icon"
-            class="size-5 shrink-0 text-primary mt-0.5"
-          />
-          <div>
-            <p class="text-sm font-semibold text-highlighted">
-              {{ tool.name }}
-            </p>
-            <p class="text-sm text-muted">
-              {{ tool.description }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </UPageSection>
+      <InventoryTable
+        :items="software"
+        prefix="SW"
+      />
+    </ModuleSection>
 
-    <UPageSection
+    <ModuleSection
+      index="03"
+      topic="uses/iot"
       title="Smart home"
       description="What's actually connected — most of it through Home Assistant and Zigbee2MQTT below."
     >
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="tool in smartHome"
-          :key="tool.name"
-          class="flex items-start gap-3 rounded-lg border border-default p-4"
-        >
-          <UIcon
-            :name="tool.icon"
-            class="size-5 shrink-0 text-primary mt-0.5"
-          />
-          <div>
-            <p class="text-sm font-semibold text-highlighted">
-              {{ tool.name }}
-            </p>
-            <p class="text-sm text-muted">
-              {{ tool.description }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </UPageSection>
+      <InventoryTable
+        :items="smartHome"
+        prefix="IOT"
+      />
+    </ModuleSection>
 
-    <UPageSection
+    <ModuleSection
+      index="04"
+      topic="uses/homelab"
       title="Homelab software"
       description="Everything self-hosted on that same Pi — see /infra for how it's all routed."
     >
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="tool in homelab"
-          :key="tool.name"
-          class="flex items-start gap-3 rounded-lg border border-default p-4"
-        >
-          <UIcon
-            :name="tool.icon"
-            class="size-5 shrink-0 text-primary mt-0.5"
-          />
-          <div>
-            <p class="text-sm font-semibold text-highlighted">
-              {{ tool.name }}
-            </p>
-            <p class="text-sm text-muted">
-              {{ tool.description }}
-            </p>
-          </div>
-        </div>
-      </div>
+      <InventoryTable
+        :items="homelab"
+        prefix="SVC"
+      />
 
-      <UButton
+      <NuxtLink
         to="/infra"
-        variant="link"
-        size="sm"
-        trailing-icon="i-lucide-arrow-right"
-        class="mt-4"
+        class="mt-10 inline-block font-mono text-sm text-highlighted underline decoration-(--ui-border-accented) underline-offset-4 hover:text-primary hover:decoration-current"
       >
-        See how it's all routed
-      </UButton>
-    </UPageSection>
+        /infra — how it's all routed →
+      </NuxtLink>
+    </ModuleSection>
   </div>
 </template>

@@ -27,6 +27,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { prerender: true },
+    '/pi5': { prerender: true },
     '/changelog': { isr: 3600 }
   },
 
@@ -55,7 +56,9 @@ export default defineNuxtConfig({
 
   fonts: {
     families: [
-      { name: 'JetBrains Mono', weights: [400, 700], global: true }
+      { name: 'JetBrains Mono', weights: [400, 500, 700], global: true },
+      { name: 'IBM Plex Sans', weights: [400, 500, 600], global: true },
+      { name: 'Barlow Condensed', weights: [500, 600, 700], global: true }
     ]
   }
 })

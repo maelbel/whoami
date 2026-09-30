@@ -7,7 +7,7 @@ useHead({
   ],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-    { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+    { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
     { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }
   ],
   htmlAttrs: {
@@ -28,8 +28,6 @@ useSeoMeta({
 
 defineOgImage('Terminal.satori', { title: site.name, description })
 
-const route = useRoute()
-const activeSection = useActiveSection()
 const { active: matrixModeActive, toggle: toggleMatrixMode } = useMatrixMode()
 
 const toast = useToast()
@@ -45,133 +43,19 @@ useKonamiCode(() => {
 })
 
 if (import.meta.client) {
-  console.log('%cLooking for something? Try the Konami code: ↑ ↑ ↓ ↓ ← → ← → B A', 'font-weight:bold;color:#00C16A')
+  console.log('%cLooking for something? Try the Konami code: ↑ ↑ ↓ ↓ ← → ← → B A', 'font-weight:bold;color:#EB5517')
 }
-
-const { status: ciStatus, error: ciError } = useCiStatus(`https://github.com/${site.github.repo}`)
-
-const navLinks = computed(() => [
-  { label: 'Home', to: '/', active: route.path === '/' && !activeSection.value },
-  { label: 'Skills', to: '/#skills', active: activeSection.value === 'skills' },
-  { label: 'Experience', to: '/#experience', active: activeSection.value === 'experience' },
-  { label: 'Projects', to: '/#projects', active: activeSection.value === 'projects' },
-  { label: 'Pipeline', to: '/#pipeline', active: activeSection.value === 'pipeline' },
-  { label: 'Contact', to: '/#contact', active: activeSection.value === 'contact' },
-  {
-    label: 'More',
-    active: route.path === '/changelog' || route.path === '/infra' || route.path === '/uses',
-    children: [
-      {
-        label: 'Changelog',
-        description: 'Every shipped release, straight from GitHub.',
-        to: '/changelog',
-        icon: 'i-lucide-history',
-        active: route.path === '/changelog'
-      },
-      {
-        label: 'Infrastructure',
-        description: 'How this site and my self-hosted projects actually run.',
-        to: '/infra',
-        icon: 'i-lucide-server',
-        active: route.path === '/infra'
-      },
-      {
-        label: 'Uses',
-        description: 'The hardware, software, and smart home setup behind it all.',
-        to: '/uses',
-        icon: 'i-lucide-cpu',
-        active: route.path === '/uses'
-      }
-    ]
-  }
-])
-
-const socialLinks = [
-  { to: `mailto:${site.email}`, icon: 'i-lucide-mail', label: 'Email' },
-  { to: `https://github.com/${site.github.username}`, icon: 'i-simple-icons-github', label: 'GitHub', external: true }
-]
-
-const headerSocialLinks = socialLinks.filter(link => link.label !== 'Email')
 </script>
 
 <template>
   <UApp>
-    <UHeader :ui="{ root: 'print:hidden border-b border-default backdrop-blur bg-default/80' }">
-      <template #left>
-        <NuxtLink to="/">
-          <AppLogo class="w-auto h-6 shrink-0" />
-        </NuxtLink>
-      </template>
+    <SiteHeader />
 
-      <template #default>
-        <UNavigationMenu :items="navLinks" />
-      </template>
-
-      <template #right>
-        <UBadge
-          :color="ciStatus ? ciStatus.color : 'neutral'"
-          variant="subtle"
-          :icon="ciStatus ? ciStatus.icon : (ciError ? 'i-lucide-circle-help' : 'i-lucide-loader-circle')"
-          class="hidden sm:flex font-mono"
-          size="sm"
-        >
-          build: {{ ciStatus ? ciStatus.label.replace('CI ', '') : (ciError ? 'unknown' : 'checking') }}
-        </UBadge>
-
-        <UTooltip text="Toggle theme">
-          <UColorModeButton />
-        </UTooltip>
-
-        <UTooltip
-          v-for="link in headerSocialLinks"
-          :key="link.label"
-          :text="link.label"
-        >
-          <UButton
-            :to="link.to"
-            :target="link.external ? '_blank' : undefined"
-            :icon="link.icon"
-            :aria-label="link.label"
-            color="neutral"
-            variant="ghost"
-          />
-        </UTooltip>
-      </template>
-    </UHeader>
-
-    <UMain>
+    <main>
       <NuxtPage />
-    </UMain>
+    </main>
 
-    <USeparator
-      icon="i-lucide-git-commit-vertical"
-      class="print:hidden"
-    />
-
-    <UFooter :ui="{ root: 'print:hidden' }">
-      <template #left>
-        <p class="text-sm text-muted font-mono">
-          $ echo "built with Nuxt UI" • © {{ new Date().getFullYear() }} {{ site.name }}
-        </p>
-      </template>
-
-      <template #right>
-        <UTooltip
-          v-for="link in socialLinks"
-          :key="link.label"
-          :text="link.label"
-        >
-          <UButton
-            :to="link.to"
-            :target="link.external ? '_blank' : undefined"
-            :icon="link.icon"
-            :aria-label="link.label"
-            color="neutral"
-            variant="ghost"
-          />
-        </UTooltip>
-      </template>
-    </UFooter>
+    <SiteFooter />
 
     <MatrixRain
       v-if="matrixModeActive"

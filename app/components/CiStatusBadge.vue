@@ -7,27 +7,23 @@ const props = defineProps<{
   label?: string
 }>()
 
-const unavailableText = computed(() => props.label ? `${props.label} status unavailable` : 'Status unavailable')
-const checkingText = computed(() => props.label ? `Checking ${props.label}…` : 'Checking…')
+const text = computed(() => {
+  if (props.status) return props.status.label.replace(/^CI /, props.label ? `${props.label.toLowerCase()} ` : '')
+  if (props.error) return props.label ? `${props.label.toLowerCase()} unavailable` : 'unavailable'
+  return props.label ? `${props.label.toLowerCase()} checking…` : 'checking…'
+})
 </script>
 
 <template>
-  <UBadge
-    v-if="status"
-    :color="status.color"
-    variant="subtle"
-    :icon="status.icon"
-    size="sm"
+  <component
+    :is="status ? 'a' : 'span'"
+    :href="status?.url"
+    :target="status ? '_blank' : undefined"
+    class="inline-flex items-center gap-2 font-mono text-xs text-muted"
+    :class="status && 'hover:text-highlighted'"
+    @click.stop
   >
-    {{ status.label }}
-  </UBadge>
-  <UBadge
-    v-else
-    color="neutral"
-    variant="subtle"
-    :icon="error ? 'i-lucide-circle-help' : 'i-lucide-loader-circle'"
-    size="sm"
-  >
-    {{ error ? unavailableText : checkingText }}
-  </UBadge>
+    <StatusLed :color="status?.color" />
+    {{ text }}
+  </component>
 </template>
